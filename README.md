@@ -24,14 +24,12 @@ busted -v spec
 
 ```lua
 local Elba = require('Bots')
-local Actionable = Elba.Actionable
-local Stance = Elba.Stance
 
 -- Command the currently targeted bot to switch stance
-Elba:stance(Stance.PASSIVE, Actionable.target())
+Elba:stance(Elba.Stance.PASSIVE, Elba.Actionable.target())
 
 -- Cast a spell on all spawned bots
-Elba:cast('Minor Healing', Actionable.spawned())
+Elba:cast('Minor Healing', Elba.Actionable.spawned())
 ```
 
 ## Architecture overview
