@@ -1,0 +1,10 @@
+local use_stub = os.getenv('ELBA_STUB_MQ') == '1'
+
+if not use_stub then
+    local ok, real = pcall(require, 'mq')
+    if ok then
+        return real
+    end
+end
+
+return require('mq_stub')
