@@ -16,6 +16,30 @@ Elba.Race        = require('ELBA.enums.Race')
 Elba.SpellType   = require('ELBA.enums.SpellType')
 Elba.Stance      = require('ELBA.enums.Stance')
 
+local race_enum_map = {
+    [1]   = "human",
+    [2]   = "human",     -- barbarian
+    [3]   = "human",     -- erudite
+    [4]   = "elf",
+    [5]   = "elf",
+    [6]   = "elf",
+    [7]   = "half-elf",
+    [8]   = "dwarf",
+    [9]   = "troll",
+    [10]  = "orc",       -- ogre -> orc
+    [11]  = "halfling",
+    [12]  = "gnome",
+    [128] = "dragonborn", -- iksar -> close enough
+    [130] = "tiefling",   -- vah shir -> best match
+    [330] = "goblin",     -- froglock -> best effort
+    [522] = "dragonborn", -- drakkin -> dragonborn-adjacent
+}
+
+local gender_enum_map = {
+    [0] = "male",
+    [1] = "female"
+}
+
 Elba.__index = Elba
 
 --- Send a bot command with up to two values and an optional Actionable.
@@ -29,6 +53,17 @@ local function run(cmd, val1, val2, act)
     if val2 ~= nil then table.insert(parts, tostring(val2)) end
     if act ~= nil then table.insert(parts, tostring(act)) end
     mq.cmdf(table.concat(parts, ' '))
+end
+
+function Elba:initialize()
+    local PackageMan = require('mq.PackageMan')
+
+    local socket = PackageMan.Require('luasocket')
+    local json   = PackageMan.Require('lua-cjson', 'cjson')
+
+    local http = require('socket.http')
+    local ltn12 = require('ltn12')
+
 end
 
 
@@ -116,11 +151,39 @@ function Elba:botcamp(value, act)
     run('botcamp', value, act)
 end
 
---- Execute the 'botcreate' command.
----@param value any?
----@param act Actionable?
-function Elba:botcreate(value, act)
-    run('botcreate', value, act)
+---Creates a bot
+---@param name string
+---@param class Class | number
+---@param race Race | number
+---@param gener Gender | number
+function Elba:botcreate(name, class, race, gener)
+    if name == "AUTO" then
+        local api_race = race_enum_map[race] or "human"
+        local api_gender = gender_enum_map[gener] or "male"
+        local url = string.format("https://names.ironarachne.com/race/%s/%s/1", api_race, api_gender)
+
+        local response = {}
+        local _, code = http.request{
+            url = url,
+            sink = ltn12.sink.table(response)
+        }
+
+        if code == 200 then
+            local body = table.concat(response)
+            local names = json.decode(body)
+            if type(names) == "table" and #names > 0 then
+                name = names[1]
+                print(string.format("[Elba] Auto-generated bot name: %s", name))
+            else
+                print("[Elba] Failed to get valid name from API.")
+                return
+            end
+        else
+            print(string.format("[Elba] Name API request failed. HTTP %d", code or 0))
+            return
+        end
+    end
+    mq.cmdf("/say ^botcreate %s %d %d %d")
 end
 
 --- Execute the 'botdelete' command.
