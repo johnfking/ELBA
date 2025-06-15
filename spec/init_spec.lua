@@ -9,7 +9,7 @@
 -- end
 
 --setup_package_aliases()
-local Elba = require('ELBA.Bots')
+local Elba = require('Bots')
 local Actionable = require('Actionable')
 local PetType = require('enums.PetType')
 local Slot = require('enums.Slot')
