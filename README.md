@@ -1,6 +1,6 @@
 # ELBA - Emu Lua Bot API
 
-ELBA provides a Lua wrapper around the standard chat-based Emu server-bot interface. It exposes a set of helper functions and enumerations for driving in‑game bots from Lua scripts. The project also includes lightweight stubs so the API can be unit tested without a running MacroQuest environment.
+ELBA provides a Lua wrapper around the standard text chat-based Emu server-bot interface. It exposes a set of helper functions and enumerations for driving in‑game bots from Lua scripts. The project also includes lightweight stubs so the API can be unit tested without a running MacroQuest environment.
 
 ## Repository layout
 
