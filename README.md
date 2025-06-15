@@ -24,14 +24,15 @@ busted -v spec
 
 ```lua
 local Elba = require('Bots')
-local Actionable = Elba.Actionable
-local Stance = Elba.Stance
 
 -- Command the currently targeted bot to switch stance
-Elba:stance(Stance.PASSIVE, Actionable.target())
+Elba:stance(Elba.Stance.PASSIVE, Elba.Actionable.target())
+-- OR
+Elba:stance(Elba.Stance.PASSIVE)
+--  Emu Bots' Actionables default to current target; less obvious what is going on here.  Do not reccomend this pattern.
 
 -- Cast a spell on all spawned bots
-Elba:cast('Minor Healing', Actionable.spawned())
+Elba:cast('Minor Healing', Elba.Actionable.spawned())
 ```
 
 ## Architecture overview
