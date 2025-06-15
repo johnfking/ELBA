@@ -10,28 +10,31 @@ Actionable.__index = Actionable
 
 --- @enum (key) ActionableType
 Actionable.ActionableType = {
-  target                  = "target",
-  byname                  = "byname",
-  ownergroup              = "ownergroup",
-  botgroup                = "botgroup",
-  targetgroup             = "targetgroup",
-  namesgroup              = "namesgroup",
-  healrotation            = "healrotation",
-  healrotationmembers     = "healrotationmembers",
-  healrotationtargets     = "healrotationtargets",
-  spawned                 = "spawned",
-  all                     = "all",
+  target                  = "target", -- uses the command on the target.  Some commands will default to target if no actionable is selected.
+  byname                  = "byname", -- [name] selects a bot by their name
+  byclass                 = "byclass", -- [class] selects bots by class
+  byrace                  = "byrace", -- [race] selects bots by race
+  ownergroup              = "ownergroup", -- selects all the bots in the owner's group
+  ownerraid               = "ownerraid", -- selects all the bots in the owner's raid
+  targetgroup             = "targetgroup", -- selects all the bots in the target's group
+  namesgroup              = "namesgroup", -- [name] selects all the bots in [name's] group
+  healrotation            = "healrotation", -- [name] selects all members and target bots of a heal rotation where [name] is a member
+  healrotationmembers     = "healrotationmembers", -- [name] selects all members of a heal rotation where [name] is a member
+  mmr                     = "mmr", -- selects all bots that are currently at max melee range
+  spawned                 = "spawned", -- selects all spawned bots1
+  all                     = "all", -- selects all spawned bots
 }
 
 --- @private
 --- @type table<ActionableType, boolean>
 Actionable.RequiresSelector = {
   byname              = true,
+  byclass             = true,
+  byrace              = true,
   botgroup            = true,
   namesgroup          = true,
   healrotation        = true,
   healrotationmembers = true,
-  healrotationtargets = true,
 }
 
 --- Create a new Actionable.
@@ -72,6 +75,20 @@ end
 --- @return Actionable
 function Actionable.byname(name)
   return Actionable.new(Actionable.ActionableType.byname, name)
+end
+
+-- Selects bots by class.
+--- @param class Class | number
+--- @return Actionable
+function Actionable.byclass(class)
+  return Actionable.new(Actionable.ActionableType.byclass, tostring.class)
+end
+
+--- Selects bots by race.
+--- @param race Race | number
+--- @return Actionable
+function Actionable.byrace(race)
+  return Actionable.new(Actionable.ActionableType.byrace, tostring.race)
 end
 
 --- Selects all bots in the owner's group.
