@@ -7,14 +7,14 @@ local mq = require('mq')
 ---@class Elba
 local Elba = {}
 
--- Modules live at the repository root, so require them directly
-Elba.Actionable  = require('Actionable')
-Elba.Slot        = require('enums.Slot')
-Elba.Class       = require('enums.Class')
-Elba.Gender      = require('enums.Gender')
-Elba.Race        = require('enums.Race')
-Elba.SpellType   = require('enums.SpellType')
-Elba.Stance      = require('enums.Stance')
+-- Load Modules
+Elba.Actionable  = require('ELBA.Actionable')
+Elba.Class       = require('ELBA.enums.Class')
+Elba.Slot        = require('ELBA.enums.Slot')
+Elba.Gender      = require('ELBA.enums.Gender')
+Elba.Race        = require('ELBA.enums.Race')
+Elba.SpellType   = require('ELBA.enums.SpellType')
+Elba.Stance      = require('ELBA.enums.Stance')
 
 Elba.__index = Elba
 
@@ -32,25 +32,11 @@ local function run(cmd, val1, val2, act)
 end
 
 
---- Execute the 'stance' command.
+--- Changes the statnce (e.g. Passive, Agressive, Balanced, etc.) of Bots.
 ---@param value any?
 ---@param act Actionable?
 function Elba:stance(value, act)
     run('stance', value, act)
-end
-
---- Execute the 'actionable' command.
----@param value any?
----@param act Actionable?
-function Elba:actionable(value, act)
-    run('actionable', value, act)
-end
-
---- Execute the 'aggressive' command.
----@param value any?
----@param act Actionable?
-function Elba:aggressive(value, act)
-    run('aggressive', value, act)
 end
 
 --- Execute the 'applypoison' command.
@@ -102,13 +88,6 @@ function Elba:blockedpetbuffs(value, act)
     run('blockedpetbuffs', value, act)
 end
 
---- Execute the 'bot' command.
----@param value any?
----@param act Actionable?
-function Elba:bot(value, act)
-    run('bot', value, act)
-end
-
 --- Execute the 'botappearance' command.
 ---@param value any?
 ---@param act Actionable?
@@ -137,13 +116,6 @@ function Elba:botcamp(value, act)
     run('botcamp', value, act)
 end
 
---- Execute the 'botclone' command.
----@param value any?
----@param act Actionable?
-function Elba:botclone(value, act)
-    run('botclone', value, act)
-end
-
 --- Execute the 'botcreate' command.
 ---@param value any?
 ---@param act Actionable?
@@ -166,9 +138,13 @@ function Elba:botdetails(value, act)
 end
 
 --- Execute the 'botdyearmor' command.
----@param value any?
+---@param materialSlot MaterialSlot | string
+---@param red number
+---@param blue number
+---@param green number
 ---@param act Actionable?
-function Elba:botdyearmor(value, act)
+function Elba:botdyearmor(materialSlot, red, blue, green, act)
+    local value = materialSlot .. ' ' .. red .. ' ' .. blue .. ' ' .. green
     run('botdyearmor', value, act)
 end
 
@@ -340,8 +316,8 @@ function Elba:botwoad(value, act)
     run('botwoad', value, act)
 end
 
---- Execute the 'cast' command.
----@param value any?
+--- Instructs Bots to cast the spell on your target.
+---@param value SpellType | number
 ---@param act Actionable?
 function Elba:cast(value, act)
     run('cast', value, act)
