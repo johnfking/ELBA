@@ -31,8 +31,8 @@ Elba:stance(Elba.Stance.PASSIVE, Elba.Actionable.target())
 Elba:stance(Elba.Stance.PASSIVE)
 --  Emu Bots' Actionables default to current target; less obvious what is going on here.  Do not reccomend this pattern.
 
--- Cast a spell on all spawned bots
-Elba:cast(Elba.SpellType.FAST_HEAL, Elba.Actionable.spawned())
+-- All Clerics cast their FAST_HEAL on the target
+Elba:cast(Elba.SpellType.FAST_HEAL, Elba.Actionable.byclass(Elba.Class.CLERIC))
 ```
 
 ## Architecture overview
