@@ -81,14 +81,14 @@ end
 --- @param class Class | number
 --- @return Actionable
 function Actionable.byclass(class)
-  return Actionable.new(Actionable.ActionableType.byclass, tostring.class)
+  return Actionable.new(Actionable.ActionableType.byclass, tostring(class))
 end
 
 --- Selects bots by race.
 --- @param race Race | number
 --- @return Actionable
 function Actionable.byrace(race)
-  return Actionable.new(Actionable.ActionableType.byrace, tostring.race)
+  return Actionable.new(Actionable.ActionableType.byrace, tostring(race))
 end
 
 --- Selects all bots in the owner's group.
