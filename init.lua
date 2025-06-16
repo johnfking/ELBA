@@ -55,14 +55,17 @@ local function run(cmd, val1, val2, act)
     mq.cmdf(table.concat(parts, ' '))
 end
 
+local PackageMan = require('mq.PackageMan')
+local socket
+local json
+local http
+local ltn12
+
 function Elba:initialize()
-    local PackageMan = require('mq.PackageMan')
 
-    local socket = PackageMan.Require('luasocket')
-    local json   = PackageMan.Require('lua-cjson', 'cjson')
-
-    local http = require('socket.http')
-    local ltn12 = require('ltn12')
+    http =  PackageMan.Require('luasocket', 'socket.http')
+    ltn12 = PackageMan.Require('luasocket', 'ltn12')
+    json   = PackageMan.Require('lua-cjson', 'cjson')
 
 end
 
@@ -155,11 +158,11 @@ end
 ---@param name string
 ---@param class Class | number
 ---@param race Race | number
----@param gener Gender | number
-function Elba:botcreate(name, class, race, gener)
+---@param gender Gender | number
+function Elba:botcreate(name, class, race, gender)
     if name == "AUTO" then
         local api_race = race_enum_map[race] or "human"
-        local api_gender = gender_enum_map[gener] or "male"
+        local api_gender = gender_enum_map[gender] or "male"
         local url = string.format("https://names.ironarachne.com/race/%s/%s/1", api_race, api_gender)
 
         local response = {}
@@ -170,7 +173,8 @@ function Elba:botcreate(name, class, race, gener)
 
         if code == 200 then
             local body = table.concat(response)
-            local names = json.decode(body)
+            local body = json.decode(body)
+            local names = body["names"]
             if type(names) == "table" and #names > 0 then
                 name = names[1]
                 print(string.format("[Elba] Auto-generated bot name: %s", name))
@@ -183,7 +187,9 @@ function Elba:botcreate(name, class, race, gener)
             return
         end
     end
-    mq.cmdf("/say ^botcreate %s %d %d %d")
+    mq.cmdf("/say ^botcreate %s %d %d %d", name, class, race, gender )
+    return { Name = name, Class = class, Race = race, Gender = gender }
+
 end
 
 --- Execute the 'botdelete' command.
