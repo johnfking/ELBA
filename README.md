@@ -12,9 +12,27 @@ ELBA provides a Lua wrapper around the standard text chat-based Emu server-bot i
 - `events.lua` and `parser.lua` – placeholders for MacroQuest event handling
 - `spec/` – `busted` test suite exercising the command wrappers
 
+## Environment setup
+
+The repository expects a Lua 5.4 toolchain with LuaRocks available. On a fresh Debian/Ubuntu container the following commands
+install Lua, LuaRocks, and the `busted` test runner:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y lua5.4 luarocks
+sudo luarocks install busted
+```
+
+LuaRocks installs user executables (including `busted`) under `~/.luarocks/bin`. Add it to your `PATH` if it is not already
+present:
+
+```bash
+export PATH="$HOME/.luarocks/bin:$PATH"
+```
+
 ## Running the tests
 
-The tests use the [busted](https://olivinelabs.com/busted/) framework. Ensure dependencies are installed via LuaRocks and run:
+The tests use the [busted](https://olivinelabs.com/busted/) framework. Once dependencies are installed, run:
 
 ```bash
 busted -v spec
