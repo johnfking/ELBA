@@ -63,3 +63,7 @@ For unit testing, `mq.lua` loads `mq_stub.lua` unless the environment variable `
 
 Upcoming modules such as `events.lua` and `parser.lua` demonstrate how MacroQuest events might be handled but currently contain only placeholders.
 
+## EQEmu server integration
+
+ELBA mirrors the command handlers that live under `zone/bot_commands` in the [EQEmu server](https://github.com/EQEmu/Server) source tree. See [`docs/eqemu_integration.md`](docs/eqemu_integration.md) for a tour of how the Lua helpers map to the underlying C++ implementation and how actionable selectors line up with the server-side bot filters.
+
