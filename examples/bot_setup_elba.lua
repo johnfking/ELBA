@@ -37,6 +37,7 @@ local Class = Elba.Class
 local Stance = Elba.Stance
 local SpellDelayCategory = Elba.SpellDelayCategory
 local SpellHoldCategory = Elba.SpellHoldCategory
+local SpellType = Elba.SpellType
 
 local function configure_bots()
     mq.cmd('/echo \ao Clearing my target')
@@ -291,43 +292,43 @@ local function configure_bots()
     mq.cmd('/echo \ao Setting Maximum Thresholds for classes...')
 
     mq.cmd('/echo \ap We want Warriors, Paladins and Shadowknights to start receiving complete heals at 85% health.')
-    Elba:spellmaxthresholds('completeheals', 85, Actionable.byclass(Class.WARRIOR))
+    Elba:spellmaxthresholds(SpellType.COMPLETE_HEAL, 85, Actionable.byclass(Class.WARRIOR))
     mq.delay(200)
-    Elba:spellmaxthresholds('completeheals', 85, Actionable.byclass(Class.PALADIN))
+    Elba:spellmaxthresholds(SpellType.COMPLETE_HEAL, 85, Actionable.byclass(Class.PALADIN))
     mq.delay(200)
-    Elba:spellmaxthresholds('completeheals', 85, Actionable.byclass(Class.SHADOWKNIGHT))
+    Elba:spellmaxthresholds(SpellType.COMPLETE_HEAL, 85, Actionable.byclass(Class.SHADOWKNIGHT))
     mq.delay(200)
 
     mq.cmd('/echo \ap We want everyone to start receiving fast heals at 40% health.')
-    Elba:spellmaxthresholds('fastheals', 40, Actionable.spawned())
+    Elba:spellmaxthresholds(SpellType.FAST_HEALS, 40, Actionable.spawned())
     mq.delay(200)
 
     mq.cmd('/echo \ap We want Warriors, Paladins and Shadowknights to start receiving fast heals at 65% health.')
-    Elba:spellmaxthresholds('fastheals', 65, Actionable.byclass(Class.WARRIOR))
+    Elba:spellmaxthresholds(SpellType.FAST_HEALS, 65, Actionable.byclass(Class.WARRIOR))
     mq.delay(200)
-    Elba:spellmaxthresholds('fastheals', 65, Actionable.byclass(Class.PALADIN))
+    Elba:spellmaxthresholds(SpellType.FAST_HEALS, 65, Actionable.byclass(Class.PALADIN))
     mq.delay(200)
-    Elba:spellmaxthresholds('fastheals', 65, Actionable.byclass(Class.SHADOWKNIGHT))
+    Elba:spellmaxthresholds(SpellType.FAST_HEALS, 65, Actionable.byclass(Class.SHADOWKNIGHT))
     mq.delay(200)
 
     mq.cmd('/echo \ap We want everyone to start receiving very fast heals at 25% health.')
-    Elba:spellmaxthresholds('veryfastheals', 25, Actionable.spawned())
+    Elba:spellmaxthresholds(SpellType.VERY_FAST_HEALS, 25, Actionable.spawned())
     mq.delay(200)
 
     mq.cmd('/echo \ap We want Warriors, Paladins and Shadowknights to start receiving very fast heals at 40% health.')
-    Elba:spellmaxthresholds('veryfastheals', 40, Actionable.byclass(Class.WARRIOR))
+    Elba:spellmaxthresholds(SpellType.VERY_FAST_HEALS, 40, Actionable.byclass(Class.WARRIOR))
     mq.delay(200)
-    Elba:spellmaxthresholds('veryfastheals', 40, Actionable.byclass(Class.PALADIN))
+    Elba:spellmaxthresholds(SpellType.VERY_FAST_HEALS, 40, Actionable.byclass(Class.PALADIN))
     mq.delay(200)
-    Elba:spellmaxthresholds('veryfastheals', 40, Actionable.byclass(Class.SHADOWKNIGHT))
+    Elba:spellmaxthresholds(SpellType.VERY_FAST_HEALS, 40, Actionable.byclass(Class.SHADOWKNIGHT))
     mq.delay(200)
 
     mq.cmd('/echo \ap We want Warriors, Paladins and Shadowknights to start receiving HoT heals at 95% health.')
-    Elba:spellmaxthresholds('hotheals', 95, Actionable.byclass(Class.WARRIOR))
+    Elba:spellmaxthresholds(SpellType.HEAL_OVER_TIME_HEALS, 95, Actionable.byclass(Class.WARRIOR))
     mq.delay(200)
-    Elba:spellmaxthresholds('hotheals', 95, Actionable.byclass(Class.PALADIN))
+    Elba:spellmaxthresholds(SpellType.HEAL_OVER_TIME_HEALS, 95, Actionable.byclass(Class.PALADIN))
     mq.delay(200)
-    Elba:spellmaxthresholds('hotheals', 95, Actionable.byclass(Class.SHADOWKNIGHT))
+    Elba:spellmaxthresholds(SpellType.HEAL_OVER_TIME_HEALS, 95, Actionable.byclass(Class.SHADOWKNIGHT))
     mq.delay(1000)
 
     mq.cmd('/echo \ao Setting Illusion Block for myself')
@@ -353,35 +354,35 @@ local function configure_bots()
     mq.delay(1000)
 
     mq.cmd("/echo \ap I want to start receiving regular heals at 70% health.")
-    Elba:spellmaxthresholds('regularheals', 70)
+    Elba:spellmaxthresholds(SpellType.REGULAR_HEAL, 70)
     mq.delay(200)
 
     mq.cmd("/echo \ap I don't want to receive complete heals.")
-    Elba:spellmaxthresholds('completeheals', 0)
+    Elba:spellmaxthresholds(SpellType.COMPLETE_HEAL, 0)
     mq.delay(200)
 
     mq.cmd("/echo \ap I want to start receiving fast heals at 55% health.")
-    Elba:spellmaxthresholds('fastheals', 55)
+    Elba:spellmaxthresholds(SpellType.FAST_HEALS, 55)
     mq.delay(200)
 
     mq.cmd("/echo \ap I want to start receiving very fast heals at 45% health.")
-    Elba:spellmaxthresholds('veryfastheals', 45)
+    Elba:spellmaxthresholds(SpellType.VERY_FAST_HEALS, 45)
     mq.delay(200)
 
     mq.cmd("/echo \ap I don't want to receive group heals.")
-    Elba:spellmaxthresholds('groupheals', 0)
+    Elba:spellmaxthresholds(SpellType.GROUP_HEALS, 0)
     mq.delay(200)
 
     mq.cmd("/echo \ap I don't want to receive group complete heals.")
-    Elba:spellmaxthresholds('groupcompleteheals', 0)
+    Elba:spellmaxthresholds(SpellType.GROUP_COMPLETE_HEALS, 0)
     mq.delay(200)
 
     mq.cmd("/echo \ap I don't want to receive group HoT heals.")
-    Elba:spellmaxthresholds('grouphotheals', 0)
+    Elba:spellmaxthresholds(SpellType.GROUP_HEAL_OVER_TIME_HEALS, 0)
     mq.delay(200)
 
     mq.cmd("/echo \ap I want to start receiving HoT heals at 90% health.")
-    Elba:spellmaxthresholds('hotheals', 90)
+    Elba:spellmaxthresholds(SpellType.HEAL_OVER_TIME_HEALS, 90)
     mq.delay(200)
 end
 
