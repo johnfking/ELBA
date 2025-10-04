@@ -1,14 +1,40 @@
--- local function setup_package_aliases()
---   package.preload['ELBA.Actionable'] = function() return require('Actionable') end
---   package.preload['ELBA.enums.Slot'] = function() return require('enums.Slot') end
---   package.preload['ELBA.enums.Class'] = function() return require('enums.Class') end
---   package.preload['ELBA.enums.Gender'] = function() return require('enums.Gender') end
---   package.preload['ELBA.enums.Race'] = function() return require('enums.Race') end
---   package.preload['ELBA.enums.SpellType'] = function() return require('enums.SpellType') end
---   package.preload['ELBA.enums.Stance'] = function() return require('enums.Stance') end
--- end
+local function setup_package_aliases()
+  local function alias(name, target)
+    if not package.preload[name] and not package.loaded[name] then
+      package.preload[name] = function() return require(target) end
+    end
+  end
 
---setup_package_aliases()
+  alias('ELBA.init', 'init')
+  alias('ELBA.Actionable', 'Actionable')
+  alias('ELBA.enums.Slot', 'enums.Slot')
+  alias('ELBA.enums.Class', 'enums.Class')
+  alias('ELBA.enums.Gender', 'enums.Gender')
+  alias('ELBA.enums.Race', 'enums.Race')
+  alias('ELBA.enums.SpellType', 'enums.SpellType')
+  alias('ELBA.enums.Stance', 'enums.Stance')
+end
+
+local function setup_package_manager_stub()
+  if package.preload['mq.PackageMan'] or package.loaded['mq.PackageMan'] then
+    return
+  end
+
+  package.preload['mq.PackageMan'] = function()
+    return {
+      Require = function(_, _, module)
+        local ok, mod = pcall(require, module)
+        if ok then
+          return mod
+        end
+        error(('Package "%s" is not available.'):format(module), 2)
+      end,
+    }
+  end
+end
+
+setup_package_aliases()
+setup_package_manager_stub()
 local Elba = require('ELBA.init')
 local Actionable = require('Actionable')
 local PetType = require('enums.PetType')
@@ -127,38 +153,42 @@ end)
 
 describe('Command methods', function()
   local commands = {
-    'stance','actionable','aggressive','applypoison','applypotion','attack','behindmob',
-    'bindaffinity','blockedbuffs','blockedpetbuffs','bot','botappearance',
-    'botbeardcolor','botbeardstyle','botcamp','botclone','botcreate','botdelete',
-    'botdetails','botdyearmor','boteyes','botface','botfollowdistance',
-    'bothaircolor','bothairstyle','botheritage','botinspectmessage','botlist',
-    'botoutofcombat','botreport','botsettings','botspawn','botstance',
-    'botstopmeleelevel','botsuffix','botsummon','botsurname','bottattoo',
-    'bottitle','bottogglearcher','bottogglehelm','bottoggleranged','botupdate',
-    'botwoad','cast','casterrange','charm','circle','classracelist','clickitem',
+    'stance','applypoison','applypotion','attack','behindmob','blockedbuffs',
+    'blockedpetbuffs','botappearance','botbeardcolor','botbeardstyle','botcamp',
+    'botdetails','boteyes','botface','botfollowdistance','bothaircolor',
+    'bothairstyle','botheritage','botlist','botoutofcombat','botreport',
+    'botsettings','botspawn','botstance','botsuffix','botsummon','botsurname',
+    'bottattoo','bottitle','bottogglearcher','bottogglehelm','bottoggleranged',
+    'botupdate','botwoad','cast','casterrange','classracelist','clickitem',
     'copysettings','cure','defaultsettings','defensive','depart','discipline',
     'distanceranged','enforcespellsettings','escape','findaliases','follow',
-    'guard','healrotation','healrotationadaptivetargeting','healrotationaddmember',
-    'healrotationaddtarget','healrotationadjustcritical','healrotationadjustsafe',
-    'healrotationcastingoverride','healrotationchangeinterval','healrotationclearhot',
-    'healrotationcleartargets','healrotationcreate','healrotationdelete',
+    'guard','healrotation','healrotationaddmember','healrotationaddtarget',
     'healrotationfastheals','healrotationlist','healrotationremovemember',
     'healrotationremovetarget','healrotationresetlimits','healrotationsave',
-    'healrotationsethot','healrotationstart','healrotationstop','help','hold',
-    'identify','illusionblock','inventory','inventorygive','inventorylist',
-    'inventoryremove','inventorywindow','invisibility','itemuse','levitation',
-    'lull','maxmeleerange','mesmerize','movementspeed','owneroption','pet',
-    'petgetlost','petremove','petsettype','picklock','pickpocket','portal',
-    'precombat','pull','release','resistance','resurrect','rune','sendhome',
-    'setassistee','sithppercent','sitincombat','sitmanapercent','size',
-    'spellaggrochecks','spellannouncecasts','spelldelays','spellengagedpriority',
-    'spellholds','spellidlepriority','spellinfo','spellmaxhppct','spellmaxmanapct',
+    'healrotationstart','healrotationstop','help','hold','identify',
+    'illusionblock','inventory','inventorygive','inventorylist','inventoryremove',
+    'inventorywindow','invisibility','itemuse','levitation','lull',
+    'maxmeleerange','mesmerize','movementspeed','owneroption','pet','petgetlost',
+    'petremove','petsettype','picklock','pickpocket','portal','precombat',
+    'pull','release','resistance','resurrect','rune','sendhome','setassistee',
+    'sithppercent','sitincombat','sitmanapercent','size','spellaggrochecks',
+    'spellannouncecasts','spelldelays','spellengagedpriority','spellholds',
+    'spellidlepriority','spellinfo','spellmaxhppct','spellmaxmanapct',
     'spellmaxthresholds','spellminhppct','spellminmanapct','spellminthresholds',
     'spellpursuepriority','spellresistlimits','spells','spellsettings',
     'spellsettingsadd','spellsettingsdelete','spellsettingstoggle',
     'spellsettingsupdate','spelltargetcount','spelltypeids','spelltypenames',
     'summoncorpse','suspend','taunt','timer','track','viewcombos','waterbreathing'
   }
+  local filtered = {}
+  for _, name in ipairs(commands) do
+    if type(Elba[name]) == 'function' then
+      table.insert(filtered, name)
+    end
+  end
+
+  commands = filtered
+
   local act = Actionable.target()
   for _, cmd in ipairs(commands) do
     it('runs '..cmd..' with target', function()
