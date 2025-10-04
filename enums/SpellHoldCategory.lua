@@ -1,5 +1,5 @@
 ---@enum (key) SpellHoldCategory
-SpellHoldCategory = {
+local SpellHoldCategory = {
     NUKES                = 'nukes',
     REGULAR_HEALS        = 'regularheals',
     ROOTS                = 'roots',

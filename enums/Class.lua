@@ -1,5 +1,6 @@
 ---@enum (key) Class
 local Class = {
+  NONE         = 0,
   WARRIOR      = 1,
   CLERIC       = 2,
   PALADIN      = 3,
@@ -17,4 +18,5 @@ local Class = {
   BEASTLORD    = 15,
   BERSERKER    = 16,
 }
+
 return Class
