@@ -14,6 +14,8 @@ Elba.Slot        = require('ELBA.enums.Slot')
 Elba.Gender      = require('ELBA.enums.Gender')
 Elba.Race        = require('ELBA.enums.Race')
 Elba.SpellType   = require('ELBA.enums.SpellType')
+Elba.SpellDelayCategory = require('ELBA.enums.SpellDelayCategory')
+Elba.SpellHoldCategory = require('ELBA.enums.SpellHoldCategory')
 Elba.Stance      = require('ELBA.enums.Stance')
 
 local race_enum_map = {
@@ -925,7 +927,7 @@ function Elba:spellannouncecasts(value, act)
 end
 
 --- Execute the 'spelldelays' command.
----@param category any?
+---@param category SpellDelayCategory?
 ---@param delay any?
 ---@param act Actionable?
 function Elba:spelldelays(category, delay, act)
@@ -940,7 +942,7 @@ function Elba:spellengagedpriority(value, act)
 end
 
 --- Execute the 'spellholds' command.
----@param category any?
+---@param category SpellHoldCategory?
 ---@param hold any?
 ---@param act Actionable?
 function Elba:spellholds(category, hold, act)
