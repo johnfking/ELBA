@@ -929,7 +929,7 @@ function Elba:spellannouncecasts(value, act)
 end
 
 --- Execute the 'spelldelays' command.
----@param category SpellDelayCategory?
+---@param category any?
 ---@param delay any?
 ---@param act Actionable?
 function Elba:spelldelays(category, delay, act)
@@ -944,7 +944,7 @@ function Elba:spellengagedpriority(value, act)
 end
 
 --- Execute the 'spellholds' command.
----@param category SpellHoldCategory?
+---@param category any?
 ---@param hold any?
 ---@param act Actionable?
 function Elba:spellholds(category, hold, act)

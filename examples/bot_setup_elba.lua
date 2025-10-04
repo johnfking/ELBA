@@ -1,36 +1,49 @@
+local args = {...}
+local enable_repository_modules = false
+
+for _, arg in ipairs(args) do
+    local normalized = tostring(arg):lower()
+    if normalized == '--dev' or normalized == '--enable-module-aliases' or normalized == '--tests' or normalized == 'dev' then
+        enable_repository_modules = true
+        break
+    end
+end
+
 local mq = require('mq')
 
--- Provide module aliases when running directly from the repository.
-local function alias(module_name, target)
-    if not package.loaded[module_name] then
-        package.loaded[module_name] = require(target)
+if enable_repository_modules then
+    -- Provide module aliases when running directly from the repository.
+    local function alias(module_name, target)
+        if not package.loaded[module_name] then
+            package.loaded[module_name] = require(target)
+        end
     end
-end
 
-alias('ELBA.Actionable', 'Actionable')
-alias('ELBA.enums.Class', 'enums.Class')
-alias('ELBA.enums.Gender', 'enums.Gender')
-alias('ELBA.enums.Race', 'enums.Race')
-alias('ELBA.enums.Slot', 'enums.Slot')
-alias('ELBA.enums.Stance', 'enums.Stance')
-alias('ELBA.enums.SpellType', 'enums.SpellType')
-alias('ELBA.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
-alias('ELBA.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
-alias('ELBA.enums.MaterialSlot', 'enums.MaterialSlot')
-alias('ELBA.enums.PetType', 'enums.PetType')
+    alias('ELBA.Actionable', 'Actionable')
+    alias('ELBA.enums.Class', 'enums.Class')
+    alias('ELBA.enums.Gender', 'enums.Gender')
+    alias('ELBA.enums.Race', 'enums.Race')
+    alias('ELBA.enums.Slot', 'enums.Slot')
+    alias('ELBA.enums.Stance', 'enums.Stance')
+    alias('ELBA.enums.SpellType', 'enums.SpellType')
+    alias('ELBA.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
+    alias('ELBA.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
+    alias('ELBA.enums.MaterialSlot', 'enums.MaterialSlot')
+    alias('ELBA.enums.PetType', 'enums.PetType')
 
-if not package.loaded['ELBA.init'] and not package.preload['ELBA.init'] then
-    package.preload['ELBA.init'] = function()
-        return require('init')
+    if not package.loaded['ELBA.init'] and not package.preload['ELBA.init'] then
+        package.preload['ELBA.init'] = function()
+            return require('init')
+        end
     end
-end
 
-if not package.loaded['mq.PackageMan'] then
-    package.loaded['mq.PackageMan'] = {
-        Require = function(_, _, _)
-            error('PackageMan is not available in this environment.')
-        end,
-    }
+    if not package.loaded['mq.PackageMan'] then
+        package.loaded['mq.PackageMan'] = {
+            Require = function(_, _, _)
+                error('PackageMan is not available in this environment.')
+            end,
+        }
+    end
 end
 
 local Elba = require('ELBA.init')
@@ -388,4 +401,4 @@ local function configure_bots()
     mq.delay(200)
 end
 
-return configure_bots
+configure_bots()
