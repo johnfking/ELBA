@@ -41,16 +41,18 @@ busted -v spec
 ## Usage example
 
 ```lua
-local Elba = require('Bots')
+local Elba = require('ELBA.init')
+
+local Actionable = Elba.Actionable
+local Class = Elba.Class
+local SpellType = Elba.SpellType
+local Stance = Elba.Stance
 
 -- Command the currently targeted bot to switch stance
-Elba:stance(Elba.Stance.PASSIVE, Elba.Actionable.target())
--- OR
-Elba:stance(Elba.Stance.PASSIVE)
---  Emu Bots' Actionables default to current target; less obvious what is going on here.  Do not reccomend this pattern.
+Elba:stance(Stance.PASSIVE, Actionable.target())
 
--- All Clerics cast their FAST_HEAL on the target
-Elba:cast(Elba.SpellType.FAST_HEAL, Elba.Actionable.byclass(Elba.Class.CLERIC))
+-- All Clerics cast their FAST_HEALS on the target
+Elba:cast(SpellType.FAST_HEALS, Actionable.byclass(Class.CLERIC))
 ```
 
 ## Architecture overview
