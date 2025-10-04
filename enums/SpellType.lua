@@ -1,5 +1,5 @@
 ---@enum (key) SpellType
-SpellType = {
+local SpellType = {
     NUKE                         = 0,
     REGULAR_HEAL                 = 1,
     ROOT                         = 2,
@@ -77,4 +77,5 @@ SpellType = {
     DISCIPLINE_DEFENSIVE         = 202,
     DISCIPLINE_UTILITY           = 203,
 }
+
 return SpellType

@@ -16,6 +16,8 @@ alias('ELBA.enums.Stance', 'enums.Stance')
 alias('ELBA.enums.SpellType', 'enums.SpellType')
 alias('ELBA.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
 alias('ELBA.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
+alias('ELBA.enums.MaterialSlot', 'enums.MaterialSlot')
+alias('ELBA.enums.PetType', 'enums.PetType')
 
 if not package.loaded['ELBA.init'] and not package.preload['ELBA.init'] then
     package.preload['ELBA.init'] = function()

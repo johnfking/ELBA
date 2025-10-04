@@ -17,6 +17,8 @@ Elba.SpellType   = require('ELBA.enums.SpellType')
 Elba.SpellDelayCategory = require('ELBA.enums.SpellDelayCategory')
 Elba.SpellHoldCategory = require('ELBA.enums.SpellHoldCategory')
 Elba.Stance      = require('ELBA.enums.Stance')
+Elba.MaterialSlot = require('ELBA.enums.MaterialSlot')
+Elba.PetType     = require('ELBA.enums.PetType')
 
 local race_enum_map = {
     [1]   = "human",

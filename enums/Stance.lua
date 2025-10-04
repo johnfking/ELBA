@@ -10,4 +10,5 @@ local Stance = {
   EFFICIENT_2 = 8,
   BURN_AE     = 9,
 }
+
 return Stance

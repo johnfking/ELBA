@@ -1,9 +1,10 @@
 ---@enum (key) PetType
-PetType = {
+local PetType = {
     AIR   = 'air',
     WATER = 'water',
     FIRE  = 'fire',
     EARTH = 'earth',
-    EPIC  = 'epic'
+    EPIC  = 'epic',
 }
+
 return PetType
