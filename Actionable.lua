@@ -17,9 +17,11 @@ Actionable.ActionableType = {
   ownergroup              = "ownergroup", -- selects all the bots in the owner's group
   ownerraid               = "ownerraid", -- selects all the bots in the owner's raid
   targetgroup             = "targetgroup", -- selects all the bots in the target's group
+  botgroup                = "botgroup", -- [name] selects all bots assigned to the named bot group
   namesgroup              = "namesgroup", -- [name] selects all the bots in [name's] group
   healrotation            = "healrotation", -- [name] selects all members and target bots of a heal rotation where [name] is a member
   healrotationmembers     = "healrotationmembers", -- [name] selects all members of a heal rotation where [name] is a member
+  healrotationtargets     = "healrotationtargets", -- [name] selects all targets of a heal rotation where [name] is a member
   mmr                     = "mmr", -- selects all bots that are currently at max melee range
   spawned                 = "spawned", -- selects all spawned bots1
   all                     = "all", -- selects all spawned bots
@@ -35,6 +37,7 @@ Actionable.RequiresSelector = {
   namesgroup          = true,
   healrotation        = true,
   healrotationmembers = true,
+  healrotationtargets = true,
 }
 
 --- Create a new Actionable.
