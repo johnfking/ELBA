@@ -5,18 +5,18 @@ local function setup_package_aliases()
     package.preload[name] = function() return require(target) end
   end
 
-  alias('ELBA.init', 'init')
-  alias('ELBA.Actionable', 'Actionable')
-  alias('ELBA.enums.Slot', 'enums.Slot')
-  alias('ELBA.enums.Class', 'enums.Class')
-  alias('ELBA.enums.Gender', 'enums.Gender')
-  alias('ELBA.enums.Race', 'enums.Race')
-  alias('ELBA.enums.SpellType', 'enums.SpellType')
-  alias('ELBA.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
-  alias('ELBA.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
-  alias('ELBA.enums.Stance', 'enums.Stance')
-  alias('ELBA.enums.MaterialSlot', 'enums.MaterialSlot')
-  alias('ELBA.enums.PetType', 'enums.PetType')
+  alias('LuaBots.init', 'init')
+  alias('LuaBots.Actionable', 'Actionable')
+  alias('LuaBots.enums.Slot', 'enums.Slot')
+  alias('LuaBots.enums.Class', 'enums.Class')
+  alias('LuaBots.enums.Gender', 'enums.Gender')
+  alias('LuaBots.enums.Race', 'enums.Race')
+  alias('LuaBots.enums.SpellType', 'enums.SpellType')
+  alias('LuaBots.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
+  alias('LuaBots.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
+  alias('LuaBots.enums.Stance', 'enums.Stance')
+  alias('LuaBots.enums.MaterialSlot', 'enums.MaterialSlot')
+  alias('LuaBots.enums.PetType', 'enums.PetType')
 end
 
 local function setup_package_manager_stub()
@@ -40,7 +40,7 @@ end
 setup_package_aliases()
 setup_package_manager_stub()
 
-local Elba = require('ELBA.init')
+local LuaBots = require('LuaBots.init')
 local Actionable = require('Actionable')
 local Class = require('enums.Class')
 local Gender = require('enums.Gender')
@@ -71,7 +71,7 @@ end
 
 local function parse_command_definitions()
   local defs = {}
-  for name, params in read_init_source():gmatch('function%s+Elba:([%w_]+)%(([^)]*)%)') do
+  for name, params in read_init_source():gmatch('function%s+LuaBots:([%w_]+)%(([^)]*)%)') do
     local arguments = {}
     for param in params:gmatch('([%w_]+)') do
       table.insert(arguments, param)
@@ -373,8 +373,8 @@ for _, data in ipairs(enum_tests) do
       assert.are.same(data.expected, data.module)
     end)
 
-    it('is exposed on Elba', function()
-      assert.are.equal(data.module, Elba[data.label])
+    it('is exposed on LuaBots', function()
+      assert.are.equal(data.module, LuaBots[data.label])
     end)
   end)
 end
@@ -395,7 +395,7 @@ describe('Command forwarding', function()
           table.insert(to_call, actionable)
         end
         local output = capture(function()
-          Elba[name](Elba, table.unpack(to_call))
+          LuaBots[name](LuaBots, table.unpack(to_call))
         end)
         assert.are.equal(
           expected_message(name, args, includes_actionable, actionable),
@@ -406,7 +406,7 @@ describe('Command forwarding', function()
       if includes_actionable then
         it(('sends %s command without actionable'):format(name), function()
           local output = capture(function()
-            Elba[name](Elba, table.unpack(args))
+            LuaBots[name](LuaBots, table.unpack(args))
           end)
           assert.are.equal(expected_message(name, args, false, actionable), output)
         end)
@@ -420,7 +420,7 @@ describe('botcreate helper', function()
     local args = {'Testbot', Class.WARRIOR, Race.HUMAN, Gender.MALE}
     local result
     local output = capture(function()
-      result = Elba:botcreate(table.unpack(args))
+      result = LuaBots:botcreate(table.unpack(args))
     end)
 
     assert.are.equal(

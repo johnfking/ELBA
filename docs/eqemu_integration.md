@@ -4,7 +4,7 @@ This library sits on top of the MacroQuest `/say ^` interface and mirrors the bo
 
 ## Command transport
 
-* `Elba` builds commands with `/say ^<command>` and passes them to MacroQuest through `mq.cmdf`, so every helper ultimately feeds into the same chat-based entry point that the server expects.
+* `LuaBots` builds commands with `/say ^<command>` and passes them to MacroQuest through `mq.cmdf`, so every helper ultimately feeds into the same chat-based entry point that the server expects.
 * The helper functions forward up to two positional arguments, followed by an optional actionable selector (for example `ownergroup` or `byclass`).
 
 This mirrors what the server side is prepared to parse: each handler receives a `Seperator` (tokenised chat command) and chooses how to interpret `arg[1]`, `arg[2]`, and the actionable tokens.
@@ -21,18 +21,18 @@ The table below lists a few representative helpers and the handler that processe
 
 | Lua helper | EQEmu handler | Purpose on the server | Notes on selectors and arguments |
 | --- | --- | --- | --- |
-| `Elba:attack(value, act)` | `attack.cpp` → `bot_command_attack` | Orders bots to attack the client's current target.  Validates line-of-sight and populates an actionable bot list before toggling the attack state. | Accepts optional actionable tokens (`spawned`, `byclass`, etc.).  Requires an enemy target in range.
-| `Elba:botcamp(value, act)` | `bot.cpp` → `bot_command_camp` | Camps the selected bots after ensuring spawn conditions are met. | Allows selectors like `ownergroup`, `byclass`, or `byrace`.  Uses `ActionableBots::PopulateSBL` with the Type1 mask.
-| `Elba:behindmob(value, act)` | `behind_mob.cpp` → `bot_command_behind_mob` | Keeps melee bots positioned behind their target. | Defaults to the targeted mob if no selector is supplied.
-| `Elba:applypoison(value, act)` | `apply_poison.cpp` → `bot_command_apply_poison` | Consumes poison items from a rogue bot's inventory. | Requires a `byname` selector so the server can look up the owning rogue bot.
-| `Elba:applypotion(value, act)` | `apply_potion.cpp` → `bot_command_apply_potion` | Orders caster bots to use a potion item. | Accepts any actionable group; handlers iterate the target list and check inventory slots.
-| `Elba:botcreate(name, class, race, gender)` | `name.cpp` / `bot.cpp` | Validates the requested name and class/race combination before spawning or cloning a bot. | ELBA's helper can auto-generate a name (see below) before relaying the command.
+| `LuaBots:attack(value, act)` | `attack.cpp` → `bot_command_attack` | Orders bots to attack the client's current target.  Validates line-of-sight and populates an actionable bot list before toggling the attack state. | Accepts optional actionable tokens (`spawned`, `byclass`, etc.).  Requires an enemy target in range.
+| `LuaBots:botcamp(value, act)` | `bot.cpp` → `bot_command_camp` | Camps the selected bots after ensuring spawn conditions are met. | Allows selectors like `ownergroup`, `byclass`, or `byrace`.  Uses `ActionableBots::PopulateSBL` with the Type1 mask.
+| `LuaBots:behindmob(value, act)` | `behind_mob.cpp` → `bot_command_behind_mob` | Keeps melee bots positioned behind their target. | Defaults to the targeted mob if no selector is supplied.
+| `LuaBots:applypoison(value, act)` | `apply_poison.cpp` → `bot_command_apply_poison` | Consumes poison items from a rogue bot's inventory. | Requires a `byname` selector so the server can look up the owning rogue bot.
+| `LuaBots:applypotion(value, act)` | `apply_potion.cpp` → `bot_command_apply_potion` | Orders caster bots to use a potion item. | Accepts any actionable group; handlers iterate the target list and check inventory slots.
+| `LuaBots:botcreate(name, class, race, gender)` | `name.cpp` / `bot.cpp` | Validates the requested name and class/race combination before spawning or cloning a bot. | LuaBots's helper can auto-generate a name (see below) before relaying the command.
 
-> Tip: because the server side uses `helper_command_alias_fail` to normalise aliases, you may encounter commands that accept short-hand names (for example, `/say ^attack` and `/say ^botattack` both reach `bot_command_attack`).  ELBA sticks to the canonical names shown above.
+> Tip: because the server side uses `helper_command_alias_fail` to normalise aliases, you may encounter commands that accept short-hand names (for example, `/say ^attack` and `/say ^botattack` both reach `bot_command_attack`).  LuaBots sticks to the canonical names shown above.
 
 ## Auto-generated bot names
 
-When you call `Elba:botcreate("AUTO", class, race, gender)`, the helper queries the Iron Arachne name API to obtain a lore-friendly name that matches the desired race and gender, then forwards the resolved name to `/say ^botcreate`.  The request falls back to standard behaviour if the API cannot be reached.
+When you call `LuaBots:botcreate("AUTO", class, race, gender)`, the helper queries the Iron Arachne name API to obtain a lore-friendly name that matches the desired race and gender, then forwards the resolved name to `/say ^botcreate`.  The request falls back to standard behaviour if the API cannot be reached.
 
 ## Exploring additional handlers
 
