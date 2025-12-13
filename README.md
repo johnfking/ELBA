@@ -28,6 +28,13 @@ present:
 export PATH="$HOME/.luarocks/bin:$PATH"
 ```
 
+### Working behind a proxy
+
+The helper script uses `apt-get` and `luarocks` to download packages from the public internet. If your environment routes
+traffic through a proxy, make sure the proxy allows access to the domains listed in [`AGENTS.md`](AGENTS.md) or temporarily
+unset proxy-related variables (for example `http_proxy`, `https_proxy`, `HTTP_PROXY`, and `HTTPS_PROXY`) before running the
+script. Otherwise package downloads may fail before the test runner can be installed.
+
 ## Running the tests
 
 The tests use the [busted](https://olivinelabs.com/busted/) framework. Once dependencies are installed, run:
