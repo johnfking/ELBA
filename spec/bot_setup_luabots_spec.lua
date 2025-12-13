@@ -9,7 +9,7 @@ end
 
 local mq = require('mq')
 
-local configure_bots = require('examples.bot_setup_elba')
+local configure_bots = require('examples.bot_setup_luabots')
 local SpellType = require('enums.SpellType')
 
 local function capture_output(fn)
