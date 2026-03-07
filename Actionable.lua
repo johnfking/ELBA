@@ -27,7 +27,6 @@ Actionable.ActionableType = {
   all                     = "all", -- selects all spawned bots
 }
 
---- @private
 --- @type table<ActionableType, boolean>
 Actionable.RequiresSelector = {
   byname              = true,
