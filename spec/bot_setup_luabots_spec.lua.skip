@@ -1,5 +1,46 @@
 package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
 
+-- Set up package aliases for testing
+local function setup_package_aliases()
+  local function alias(name, target)
+    package.preload[name] = function() return require(target) end
+  end
+
+  alias('LuaBots.init', 'init')
+  alias('LuaBots.Actionable', 'Actionable')
+  alias('LuaBots.enums.Slot', 'enums.Slot')
+  alias('LuaBots.enums.Class', 'enums.Class')
+  alias('LuaBots.enums.Gender', 'enums.Gender')
+  alias('LuaBots.enums.Race', 'enums.Race')
+  alias('LuaBots.enums.SpellType', 'enums.SpellType')
+  alias('LuaBots.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
+  alias('LuaBots.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
+  alias('LuaBots.enums.Stance', 'enums.Stance')
+  alias('LuaBots.enums.MaterialSlot', 'enums.MaterialSlot')
+  alias('LuaBots.enums.PetType', 'enums.PetType')
+end
+
+local function setup_package_manager_stub()
+  if package.preload['mq.PackageMan'] or package.loaded['mq.PackageMan'] then
+    return
+  end
+
+  package.preload['mq.PackageMan'] = function()
+    return {
+      Require = function(_, _, module)
+        local ok, mod = pcall(require, module)
+        if ok then
+          return mod
+        end
+        error(('Package "%s" is not available.'):format(module), 2)
+      end,
+    }
+  end
+end
+
+setup_package_aliases()
+setup_package_manager_stub()
+
 local ok_socket, socket_mod = pcall(require, 'socket')
 if not ok_socket then
     package.loaded['socket'] = { sleep = function() end }
@@ -7,9 +48,15 @@ else
     package.loaded['socket'] = socket_mod
 end
 
+-- Stub mq.delay to do nothing during tests
 local mq = require('mq')
+local original_delay = mq.delay
+mq.delay = function() end
 
 local configure_bots = require('examples.bot_setup_luabots')
+
+-- Restore original delay
+mq.delay = original_delay
 local SpellType = require('enums.SpellType')
 
 local function capture_output(fn)

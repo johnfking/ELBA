@@ -1,0 +1,37 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Lua and LuaRocks
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lua5.4 luarocks
+    
+    - name: Install busted
+      run: |
+        sudo luarocks install busted
+    
+    - name: Add LuaRocks to PATH
+      run: echo "$HOME/.luarocks/bin" >> $GITHUB_PATH
+    
+    - name: Run tests
+      env:
+        LUABOTS_STUB_MQ: 1
+      run: busted -v spec
+    
+    - name: Run property-based tests
+      env:
+        LUABOTS_STUB_MQ: 1
+        PROPERTY_SEED: 42
+      run: busted -v spec/property_*.lua

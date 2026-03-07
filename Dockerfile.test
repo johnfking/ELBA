@@ -1,0 +1,22 @@
+FROM ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y lua5.4 luarocks && \
+    luarocks install busted && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add luarocks bin to PATH
+ENV PATH="/root/.luarocks/bin:$PATH"
+
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . .
+
+# Set environment variable for stub
+ENV LUABOTS_STUB_MQ=1
+
+# Run tests by default
+CMD ["busted", "-v", "spec"]

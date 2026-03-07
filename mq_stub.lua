@@ -17,8 +17,13 @@ end
 -- @param fmt string format string
 -- @param ... any format arguments
 function M.cmdf(fmt, ...)
-    local msg = string.format(fmt, ...)
-    M.cmd(msg)
+    -- Handle case where no format arguments provided
+    if select('#', ...) == 0 then
+        M.cmd(fmt)
+    else
+        local msg = string.format(fmt, ...)
+        M.cmd(msg)
+    end
 end
 
 --- Simple event dispatcher used for testing.

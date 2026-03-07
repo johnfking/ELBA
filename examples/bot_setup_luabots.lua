@@ -401,4 +401,9 @@ local function configure_bots()
     mq.delay(200)
 end
 
-configure_bots()
+-- Only run if executed directly (not required as a module)
+if not ... then
+    configure_bots()
+end
+
+return configure_bots

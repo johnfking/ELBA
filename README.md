@@ -14,18 +14,45 @@ LuaBots provides a Lua wrapper around the standard text chat-based Emu server-bo
 
 ## Environment setup
 
-The repository expects a Lua 5.4 toolchain with LuaRocks available. On a fresh Debian/Ubuntu container run the helper script to
-install Lua, LuaRocks, and the `busted` test runner:
+The repository expects a Lua 5.4 toolchain with LuaRocks available.
+
+### Linux/macOS (Debian/Ubuntu)
+
+On a fresh Debian/Ubuntu container, run the helper script to install Lua, LuaRocks, and the `busted` test runner:
 
 ```bash
 ./scripts/install_deps.sh
 ```
 
-LuaRocks installs user executables (including `busted`) under `~/.luarocks/bin`. Add it to your `PATH` if it is not already
-present:
+LuaRocks installs user executables (including `busted`) under `~/.luarocks/bin`. Add it to your `PATH` if it is not already present:
 
 ```bash
 export PATH="$HOME/.luarocks/bin:$PATH"
+```
+
+Add this to your `~/.bashrc` or `~/.zshrc` to make it permanent.
+
+### Windows
+
+On Windows, you can use the PowerShell installation script (requires [Chocolatey](https://chocolatey.org/)):
+
+```powershell
+.\scripts\install_deps.ps1
+```
+
+Alternatively, install manually:
+1. Install Lua from [LuaForWindows](https://github.com/rjpcomputing/luaforwindows/releases)
+2. Install LuaRocks from [luarocks.org](https://luarocks.org/)
+3. Run: `luarocks install busted`
+
+### Manual Installation
+
+If you prefer to install manually:
+
+```bash
+# Install Lua 5.4 and LuaRocks using your package manager
+# Then install busted:
+luarocks install busted
 ```
 
 ### Working behind a proxy
@@ -40,8 +67,38 @@ script. Otherwise package downloads may fail before the test runner can be insta
 The tests use the [busted](https://olivinelabs.com/busted/) framework. Once dependencies are installed, run:
 
 ```bash
+# Using the convenience script (recommended)
+./run_tests.sh              # Linux/macOS
+.\run_tests.ps1             # Windows
+
+# Or run busted directly
 busted -v spec
 ```
+
+For detailed testing information, troubleshooting, and advanced usage, see [TESTING.md](TESTING.md).
+
+### Running Property-Based Tests
+
+The property-based testing framework has been integrated with busted. You can run tests in several ways:
+
+```bash
+# Run all tests (example-based and property-based)
+busted -v spec
+
+# Run only property-based tests
+busted -v spec/property_*.lua
+
+# Run specific property test file
+busted -v spec/property_actionable_spec.lua
+busted -v spec/property_commands_spec.lua
+busted -v spec/property_enums_spec.lua
+busted -v spec/property_mq_stub_spec.lua
+
+# Run with specific seed for reproducibility
+PROPERTY_SEED=12345 busted -v spec
+```
+
+The property-based tests run 100 iterations per property by default (configurable in each test). The full test suite should complete in approximately 10-15 seconds.
 
 ## Usage example
 
