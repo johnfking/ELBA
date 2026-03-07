@@ -1,4 +1,4 @@
----@enum (key) SpellType
+---@enum SpellType
 local SpellType = {
     NUKE                         = 0,
     REGULAR_HEAL                 = 1,

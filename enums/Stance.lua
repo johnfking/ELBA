@@ -1,4 +1,4 @@
----@enum (key) Stance
+---@enum Stance
 local Stance = {
   PASSIVE     = 1,
   BALANCED    = 2,

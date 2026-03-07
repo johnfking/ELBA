@@ -1,4 +1,4 @@
----@enum (key) MaterialSlot
+---@enum MaterialSlot
 local MaterialSlot = {
     ALL    = '*',
     HEAD   = 1,

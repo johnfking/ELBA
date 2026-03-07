@@ -1,4 +1,4 @@
----@enum (key) PetType
+---@enum PetType
 local PetType = {
     AIR   = 'air',
     WATER = 'water',

@@ -1,4 +1,4 @@
----@enum (key) SpellHoldCategory
+---@enum SpellHoldCategory
 local SpellHoldCategory = {
     NUKES                = 'nukes',
     REGULAR_HEALS        = 'regularheals',

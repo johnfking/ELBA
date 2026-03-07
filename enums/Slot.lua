@@ -1,5 +1,5 @@
 --- Enum for inventory equipment slots
----@enum (key) Slot
+---@enum Slot
 local Slot = {
   CHARM       = 0,
   LEFTEAR     = 1,

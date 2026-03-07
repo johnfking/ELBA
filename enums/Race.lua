@@ -1,4 +1,4 @@
----@enum (key) Race
+---@enum Race
 local Race = {
     HUMAN       = 1,
     BARBARIAN   = 2,

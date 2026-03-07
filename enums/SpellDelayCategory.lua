@@ -1,4 +1,4 @@
----@enum (key) SpellDelayCategory
+---@enum SpellDelayCategory
 local SpellDelayCategory = {
     NUKES           = 'nukes',
     DOTS            = 'dots',

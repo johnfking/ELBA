@@ -1,4 +1,4 @@
----@enum (key) Class
+---@enum Class
 local Class = {
   NONE         = 0,
   WARRIOR      = 1,
