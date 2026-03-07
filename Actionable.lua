@@ -8,7 +8,7 @@
 local Actionable = {}
 Actionable.__index = Actionable
 
---- @enum (key) ActionableType
+--- @enum ActionableType
 Actionable.ActionableType = {
   target                  = "target", -- uses the command on the target.  Some commands will default to target if no actionable is selected.
   byname                  = "byname", -- [name] selects a bot by their name
