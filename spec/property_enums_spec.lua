@@ -45,6 +45,7 @@ local Actionable = require('Actionable')
 local function capture(fn)
   local output = {}
   local orig = io.write
+  ---@diagnostic disable-next-line: duplicate-set-field
   io.write = function(str) table.insert(output, str) end
   fn()
   io.write = orig
