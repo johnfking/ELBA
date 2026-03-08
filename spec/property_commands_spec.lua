@@ -25,6 +25,7 @@ local function setup_package_manager_stub()
     return
   end
 
+  ---@diagnostic disable-next-line: duplicate-set-field
   package.preload['mq.PackageMan'] = function()
     return {
       Require = function(_, _, module)
