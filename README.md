@@ -119,7 +119,7 @@ The test suite includes:
 
 All 558 tests typically complete in 10-15 seconds with **100% code coverage** on all core modules.
 
-For detailed testing information, troubleshooting, and advanced usage, see [TESTING.md](TESTING.md).
+For detailed testing information, troubleshooting, and advanced usage, see [docs/testing.md](docs/testing.md).
 
 ## Usage example
 
