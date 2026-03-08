@@ -8,8 +8,9 @@ sudo apt-get update
 sudo apt-get install -y lua5.4 luarocks
 
 # Install busted
-echo "Installing busted..."
+echo "Installing busted and luacov..."
 sudo luarocks install busted
+sudo luarocks install luacov
 
 # Check if ~/.luarocks/bin is in PATH
 if [[ ":$PATH:" != *":$HOME/.luarocks/bin:"* ]]; then
@@ -27,6 +28,7 @@ echo "✓ Installation complete!"
 echo ""
 echo "To run tests:"
 echo "  busted -v spec                    # Run all tests"
+echo "  busted -v spec --coverage         # Run with coverage"
 echo "  busted -v spec/property_*.lua     # Run only property-based tests"
 echo "  PROPERTY_SEED=12345 busted -v spec # Run with specific seed"
 

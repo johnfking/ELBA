@@ -22,9 +22,12 @@ choco install luarocks -y
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # Install busted
-Write-Host "Installing busted test framework..." -ForegroundColor Cyan
+Write-Host "Installing busted test framework and luacov..." -ForegroundColor Cyan
 luarocks install busted
+luarocks install luacov
 
 Write-Host "`nInstallation complete!" -ForegroundColor Green
 Write-Host "You may need to restart your terminal for PATH changes to take effect." -ForegroundColor Yellow
-Write-Host "`nTo run tests, use: busted -v spec" -ForegroundColor Cyan
+Write-Host "`nTo run tests:" -ForegroundColor Cyan
+Write-Host "  busted -v spec              # Run all tests" -ForegroundColor Cyan
+Write-Host "  busted -v spec --coverage   # Run with coverage" -ForegroundColor Cyan

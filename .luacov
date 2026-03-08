@@ -1,0 +1,28 @@
+-- LuaCov configuration
+return {
+  -- Only include source files, exclude tests and stubs
+  include = {
+    "^init%.lua$",
+    "^Actionable%.lua$",
+    "^events%.lua$",
+    "^parser%.lua$",
+    "^LuaBots/",
+    "^enums/"
+  },
+  
+  -- Exclude test files, stubs, and test utilities
+  exclude = {
+    "^spec/",
+    "^mq_stub%.lua$",
+    "^mq%.lua$",
+    "^test_",
+    "^%.luarocks/"
+  },
+  
+  -- Report configuration
+  statsfile = "luacov.stats.out",
+  reportfile = "luacov.report.out",
+  
+  -- Coverage thresholds
+  codefromstrings = false
+}

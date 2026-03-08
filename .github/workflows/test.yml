@@ -21,6 +21,7 @@ jobs:
     - name: Install busted
       run: |
         sudo luarocks install busted
+        sudo luarocks install luacov
     
     - name: Add LuaRocks to PATH
       run: echo "$HOME/.luarocks/bin" >> $GITHUB_PATH
@@ -28,10 +29,12 @@ jobs:
     - name: Run tests
       env:
         LUABOTS_STUB_MQ: 1
-      run: busted -v spec
+      run: busted -v spec --coverage
     
-    - name: Run property-based tests
-      env:
-        LUABOTS_STUB_MQ: 1
-        PROPERTY_SEED: 42
-      run: busted -v spec/property_*.lua
+    - name: Generate coverage report
+      run: luacov
+    
+    - name: Check coverage
+      run: |
+        echo "Coverage Summary:"
+        tail -20 luacov.report.out

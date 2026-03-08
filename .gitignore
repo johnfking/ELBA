@@ -1,0 +1,10 @@
+# LuaCov coverage files
+luacov.stats.out
+luacov.report.out
+
+# Test output
+test_output.log
+test_coverage.log
+
+# LuaRocks
+.luarocks/

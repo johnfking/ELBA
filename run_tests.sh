@@ -18,4 +18,16 @@ fi
 
 # Run tests with any provided arguments
 echo "Running tests..."
-busted -v "$@"
+
+# Check if --coverage flag is passed
+if [[ "$*" == *"--coverage"* ]]; then
+  busted -v spec --coverage
+  if command -v luacov &> /dev/null; then
+    luacov
+    echo ""
+    echo "Coverage report generated: luacov.report.out"
+    tail -20 luacov.report.out
+  fi
+else
+  busted -v "$@"
+fi

@@ -20,6 +20,7 @@ jobs:
     - name: Install busted
       run: |
         sudo luarocks install busted
+        sudo luarocks install luacov
     
     - name: Add LuaRocks to PATH
       run: echo "$HOME/.luarocks/bin" >> $GITHUB_PATH
@@ -27,7 +28,19 @@ jobs:
     - name: Run tests
       env:
         LUABOTS_STUB_MQ: 1
-      run: busted -v spec
+      run: busted -v spec --coverage
+    
+    - name: Generate coverage report
+      run: luacov
+    
+    - name: Verify 100% coverage
+      run: |
+        if ! grep -q "Total.*100.00%" luacov.report.out; then
+          echo "Error: Coverage is not 100%"
+          tail -20 luacov.report.out
+          exit 1
+        fi
+        echo "Coverage: 100% ✓"
 
   release:
     needs: test

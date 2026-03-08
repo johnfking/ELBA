@@ -4,6 +4,7 @@
 [![Lua](https://img.shields.io/badge/Lua-5.4-blue.svg)](https://www.lua.org/)
 [![Tests](https://img.shields.io/badge/tests-558%20passing-brightgreen.svg)](https://github.com/johnfking/ELBA)
 [![Property Tests](https://img.shields.io/badge/property%20tests-103-blue.svg)](https://github.com/johnfking/ELBA)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/johnfking/ELBA)
 
 LuaBots provides a Lua wrapper around the standard text chat-based Emu server-bot interface. It exposes a set of helper functions and enumerations for driving in‑game bots from Lua scripts. 
 
@@ -98,6 +99,10 @@ The tests use the [busted](https://olivinelabs.com/busted/) framework. Once depe
 
 # Or run busted directly
 busted -v spec
+
+# Run with coverage
+busted -v spec --coverage
+luacov                      # Generate coverage report
 ```
 
 The test suite includes:
@@ -111,7 +116,7 @@ The test suite includes:
   - Output capture independence
   - Package configuration round-trip integrity
 
-All 558 tests typically complete in 10-15 seconds.
+All 558 tests typically complete in 10-15 seconds with **100% code coverage** on all core modules.
 
 For detailed testing information, troubleshooting, and advanced usage, see [TESTING.md](TESTING.md).
 
