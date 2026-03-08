@@ -2,13 +2,13 @@
 --- Actionable.lua — static constructors for each actionable type
 ---
 
---- @class Actionable
---- @field type string               actionable token
---- @field selector string?          optional associated selector
+---@class Actionable
+---@field type string actionable token
+---@field selector string? optional associated selector
 local Actionable = {}
 Actionable.__index = Actionable
 
---- @enum ActionableType
+---@enum ActionableType
 Actionable.ActionableType = {
   target                  = "target", -- uses the command on the target.  Some commands will default to target if no actionable is selected.
   byname                  = "byname", -- [name] selects a bot by their name
@@ -27,7 +27,7 @@ Actionable.ActionableType = {
   all                     = "all", -- selects all spawned bots
 }
 
---- @type table<ActionableType, boolean>
+---@type table<ActionableType, boolean>
 Actionable.RequiresSelector = {
   byname              = true,
   byclass             = true,
@@ -40,9 +40,9 @@ Actionable.RequiresSelector = {
 }
 
 --- Create a new Actionable.
---- @param actionType ActionableType
---- @param selector   string?
---- @return Actionable
+---@param actionType ActionableType
+---@param selector string?
+---@return Actionable
 function Actionable.new(actionType, selector)
   assert(
     Actionable.ActionableType[actionType],
@@ -67,87 +67,87 @@ function Actionable:__tostring()
 end
 
 --- Selects target as single bot.
---- @return Actionable
+---@return Actionable
 function Actionable.target()
   return Actionable.new(Actionable.ActionableType.target)
 end
 
 --- Selects single bot by name.
---- @param name string
---- @return Actionable
+---@param name string
+---@return Actionable
 function Actionable.byname(name)
   return Actionable.new(Actionable.ActionableType.byname, name)
 end
 
 -- Selects bots by class.
---- @param class Class | number
---- @return Actionable
+---@param class Class | number
+---@return Actionable
 function Actionable.byclass(class)
   return Actionable.new(Actionable.ActionableType.byclass, tostring(class))
 end
 
 --- Selects bots by race.
---- @param race Race | number
---- @return Actionable
+---@param race Race | number
+---@return Actionable
 function Actionable.byrace(race)
   return Actionable.new(Actionable.ActionableType.byrace, tostring(race))
 end
 
 --- Selects all bots in the owner's group.
---- @return Actionable
+---@return Actionable
 function Actionable.ownergroup()
   return Actionable.new(Actionable.ActionableType.ownergroup)
 end
 
 --- Selects members of a bot-group by its name.
---- @param group string
---- @return Actionable
+---@param group string
+---@return Actionable
 function Actionable.botgroup(group)
   return Actionable.new(Actionable.ActionableType.botgroup, group)
 end
 
 --- Selects all bots in target's group.
---- @return Actionable
+---@return Actionable
 function Actionable.targetgroup()
   return Actionable.new(Actionable.ActionableType.targetgroup)
 end
 
 --- Selects all bots in name's group.
---- @param group string
---- @return Actionable
+---@param group string
+---@return Actionable
 function Actionable.namesgroup(group)
   return Actionable.new(Actionable.ActionableType.namesgroup, group)
 end
 
 --- Selects all members and targets of a heal rotation.
---- @param name string
---- @return Actionable
+---@param name string
+---@return Actionable
 function Actionable.healrotation(name)
   return Actionable.new(Actionable.ActionableType.healrotation, name)
 end
 
 --- Selects only members of a heal rotation.
---- @param name string
---- @return Actionable
+---@param name string
+---@return Actionable
 function Actionable.healrotationmembers(name)
   return Actionable.new(Actionable.ActionableType.healrotationmembers, name)
 end
 
 --- Selects only targets of a heal rotation.
---- @param name string
---- @return Actionable
+---@param name string
+---@return Actionable
 function Actionable.healrotationtargets(name)
   return Actionable.new(Actionable.ActionableType.healrotationtargets, name)
 end
 
 --- Selects all spawned bots.
---- @return Actionable
+---@return Actionable
 function Actionable.spawned()
   return Actionable.new(Actionable.ActionableType.spawned)
 end
 
 --- Selects all bots (for bulk updates).
---- @return Actionable
+---@return Actionable
 function Actionable.all()
   return Actionable.new(Actionable.ActionableType.all)
 end
