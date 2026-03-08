@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
 
 -- Set up package aliases for testing

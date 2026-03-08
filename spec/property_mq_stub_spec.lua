@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
 
 local property = require('spec.property')
