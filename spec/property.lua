@@ -12,6 +12,21 @@ math.randomseed(rng_seed)
 -- Store the seed for reporting
 property._seed = rng_seed
 
+---@class PropertyTestState
+---@field rng_seed number current RNG seed
+---@field iteration number current iteration count
+
+--- Create a new property test state
+---@param seed number? optional seed (defaults to PROPERTY_SEED env var or os.time())
+---@return PropertyTestState
+function property.create_test_state(seed)
+  seed = seed or tonumber(os.getenv('PROPERTY_SEED')) or os.time()
+  return {
+    rng_seed = seed,
+    iteration = 0
+  }
+end
+
 --- Generate random integers within a range
 ---@param min number minimum value (inclusive)
 ---@param max number maximum value (inclusive)
@@ -83,14 +98,25 @@ end
 ---@param generators table list of generators to produce test inputs
 ---@param test_fn function test function that receives generated values
 ---@param opts table|nil optional configuration (iterations, seed)
-function property.forall(generators, test_fn, opts)
+---@param state PropertyTestState|nil optional state (creates new if nil)
+---@return PropertyTestState final state after test execution
+function property.forall(generators, test_fn, opts, state)
   assert(type(generators) == 'table', 'generators must be a table')
   assert(type(test_fn) == 'function', 'test_fn must be a function')
+  
+  -- Create isolated state if not provided
+  state = state or property.create_test_state()
+  
+  -- Set RNG seed for this test run
+  math.randomseed(state.rng_seed)
   
   opts = opts or {}
   local iterations = opts.iterations or 100
   
   for i = 1, iterations do
+    -- Update state iteration
+    state.iteration = i
+    
     -- Generate values from each generator
     local values = {}
     for j, gen in ipairs(generators) do
@@ -103,20 +129,26 @@ function property.forall(generators, test_fn, opts)
     local success, err = pcall(test_fn, table.unpack(values))
     
     if not success then
-      -- Report the failing input
+      -- Report the failing input with seed for reproduction
       local input_str = {}
       for j, val in ipairs(values) do
         input_str[j] = string.format('%q', tostring(val))
       end
       
       error(string.format(
-        'Property failed on iteration %d with inputs: [%s]\nError: %s',
+        'Property failed on iteration %d (seed: %d) with inputs: [%s]\nError: %s',
         i,
+        state.rng_seed,
         table.concat(input_str, ', '),
         tostring(err)
       ), 2)
     end
   end
+  
+  -- Update state with final RNG state
+  state.rng_seed = math.random(1, 2^31 - 1)
+  
+  return state
 end
 
 --- Generate sample values from a generator for debugging

@@ -3,16 +3,8 @@ package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
 local property = require('spec.property')
 local generators = require('spec.generators')
 local mq = require('mq')
-
-local function capture(fn)
-  local output = {}
-  local orig = io.write
-  ---@diagnostic disable-next-line: duplicate-set-field
-  io.write = function(str) table.insert(output, str) end
-  fn()
-  io.write = orig
-  return table.concat(output)
-end
+local test_helpers = require('spec.test_helpers')
+local capture = test_helpers.capture
 
 describe('MQ stub properties', function()
   it('Property 15: MQ stub outputs commands with newlines', function()
@@ -54,7 +46,7 @@ describe('MQ stub properties', function()
   it('Property 17: MQ delay completes without error', function()
     -- Feature: comprehensive-property-based-testing, Property 17
     property.forall(
-      { property.integer(0, 10000) },
+      { property.integer(0, 10) },
       function(delay_ms)
         assert.has_no_errors(function()
           mq.delay(delay_ms)

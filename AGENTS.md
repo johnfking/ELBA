@@ -1,3 +1,9 @@
+**CRITICAL SYSTEM INFO: YOU ARE RUNNING ON WSL (WINDOWS SUBSYSTEM FOR LINUX)**
+**USE LINUX/BASH COMMANDS ONLY - NO POWERSHELL, NO WINDOWS COMMANDS**
+**SHELL: bash**
+**PLATFORM: Linux (WSL)**
+**LUA: LuaJIT 2.1.0-beta3 is installed at /usr/bin/luajit**
+
 This repository contains Lua code. Use the `busted` test framework for testing.
 
 Install prerequisites in a fresh Debian/Ubuntu container with:

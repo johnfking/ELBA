@@ -46,16 +46,8 @@ local property = require('spec.property')
 local generators = require('spec.generators')
 local LuaBots = require('LuaBots.init')
 local Actionable = require('Actionable')
-
-local function capture(fn)
-  local output = {}
-  local orig = io.write
-  ---@diagnostic disable-next-line: duplicate-set-field
-  io.write = function(str) table.insert(output, str) end
-  fn()
-  io.write = orig
-  return table.concat(output)
-end
+local test_helpers = require('spec.test_helpers')
+local capture = test_helpers.capture
 
 describe('Command formatting properties', function()
   -- Property tests will be added here

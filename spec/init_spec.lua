@@ -53,16 +53,8 @@ local SpellDelayCategory = require('enums.SpellDelayCategory')
 local SpellHoldCategory = require('enums.SpellHoldCategory')
 local SpellType = require('enums.SpellType')
 local Stance = require('enums.Stance')
-
-local function capture(fn)
-  local output = {}
-  local orig = io.write
-  ---@diagnostic disable-next-line: duplicate-set-field
-  io.write = function(str) table.insert(output, str) end
-  fn()
-  io.write = orig
-  return table.concat(output)
-end
+local test_helpers = require('spec.test_helpers')
+local capture = test_helpers.capture
 
 local function read_init_source()
   local handle = assert(io.open('init.lua', 'r'))

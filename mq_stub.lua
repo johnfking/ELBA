@@ -7,15 +7,45 @@ local socket = require('socket')
 
 local M = {}
 
---- Send a command string.
--- @param cmd string command to execute
-function M.cmd(cmd)
-    io.write(cmd .. '\n')
+-- Command capture state
+local capture_mode = false
+local command_buffer = {}
+
+--- Enable command capture mode
+function M.enable_capture()
+    capture_mode = true
+    command_buffer = {}
 end
 
--- Format the command and print to stdout.
--- @param fmt string format string
--- @param ... any format arguments
+--- Disable command capture mode
+function M.disable_capture()
+    capture_mode = false
+end
+
+--- Get captured commands
+---@return table list of captured command strings
+function M.get_captured_commands()
+    return command_buffer
+end
+
+--- Clear command buffer
+function M.clear_captured_commands()
+    command_buffer = {}
+end
+
+--- Send a command string.
+---@param cmd string command to execute
+function M.cmd(cmd)
+    if capture_mode then
+        table.insert(command_buffer, cmd)
+    else
+        io.write(cmd .. '\n')
+    end
+end
+
+--- Format the command and print to stdout.
+---@param fmt string format string
+---@param ... any format arguments
 function M.cmdf(fmt, ...)
     -- Handle case where no format arguments provided
     if select('#', ...) == 0 then
@@ -50,7 +80,7 @@ M.event = {
 }
 
 --- Pause execution for a number of milliseconds.
--- @param ms number milliseconds to wait
+---@param ms number milliseconds to wait
 function M.delay(ms)
     socket.sleep(ms / 1000)
 end
