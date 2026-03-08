@@ -8,12 +8,12 @@
 
 LuaBots provides a Lua wrapper around the standard text chat-based Emu server-bot interface. It exposes a set of helper functions and enumerations for driving in‑game bots from Lua scripts. 
 
-The library features a **functional architecture** that separates pure logic from side effects, enabling comprehensive property-based testing and maintaining full backward compatibility. The project includes lightweight stubs so the API can be unit tested without running the MacroQuest environment.
+The library features a **functional architecture** that separates pure logic from side effects, enabling comprehensive property-based testing. The project includes lightweight stubs so the API can be unit tested without running the MacroQuest environment.
 
 ## Repository layout
 
 ### Core Modules
-- `init.lua` – main entry point with backward-compatible API
+- `init.lua` – main entry point
 - `LuaBots/` – functional core modules:
   - `Actionable.lua` – constructors for different bot selectors (single target, groups, heal rotations, etc.)
   - `CommandBuilder.lua` – pure functions for building command strings
@@ -147,12 +147,11 @@ LuaBots uses a **functional architecture** that separates pure logic from side e
 - **HTTPClient** - Injectable HTTP client for testable bot creation
 - **NameGenerator** - Deterministic name generation with explicit RNG state management
 
-The main `init.lua` module provides a backward-compatible API that delegates to these functional components. This architecture enables:
+The main `init.lua` module provides the public API that delegates to these functional components. This architecture enables:
 
 - **Comprehensive testing** - Pure functions can be tested exhaustively with property-based testing
 - **Dependency injection** - HTTP and RNG dependencies can be swapped for testing
 - **State isolation** - No global state or hidden side effects
-- **Backward compatibility** - Existing code continues to work unchanged
 
 For unit testing, `LuaBots/mq.lua` loads `LuaBots/mq_stub.lua` unless the environment variable `LUABOTS_STUB_MQ` is unset. The stub supports both normal and capture modes, allowing tests to verify formatted commands without requiring MQ to be present.
 
@@ -169,7 +168,6 @@ This project uses **property-based testing** to validate correctness properties 
 - **Purity** - Command builders produce identical outputs for identical inputs with no side effects
 - **Idempotence** - Repeated calls with the same inputs always produce the same results
 - **Format consistency** - All commands follow the `/say ^<command> [params]` format
-- **Backward compatibility** - Refactored code produces identical outputs to legacy implementation
 - **State isolation** - RNG and output capture operations don't interfere with each other
 
 Each property is tested across 100 randomly generated inputs, providing strong evidence of correctness. The test suite runs automatically on every push via GitHub Actions.
