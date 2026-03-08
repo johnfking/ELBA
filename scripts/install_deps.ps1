@@ -1,18 +1,18 @@
-# PowerShell script to install Lua and busted on Windows
+# PowerShell script to install LuaJIT and busted on Windows
 # Requires Chocolatey package manager
 
-Write-Host "Installing Lua and busted test framework..." -ForegroundColor Green
+Write-Host "Installing LuaJIT and test dependencies..." -ForegroundColor Green
 
 # Check if Chocolatey is installed
 if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
     Write-Host "Chocolatey is not installed. Please install it from https://chocolatey.org/" -ForegroundColor Red
-    Write-Host "Or install Lua manually from https://github.com/rjpcomputing/luaforwindows/releases" -ForegroundColor Yellow
+    Write-Host "Or install LuaJIT manually from https://luajit.org/" -ForegroundColor Yellow
     exit 1
 }
 
-# Install Lua
-Write-Host "Installing Lua..." -ForegroundColor Cyan
-choco install lua -y
+# Install LuaJIT
+Write-Host "Installing LuaJIT..." -ForegroundColor Cyan
+choco install luajit -y
 
 # Install LuaRocks
 Write-Host "Installing LuaRocks..." -ForegroundColor Cyan

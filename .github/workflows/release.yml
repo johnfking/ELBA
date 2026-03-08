@@ -15,7 +15,7 @@ jobs:
     - name: Install Lua and LuaRocks
       run: |
         sudo apt-get update
-        sudo apt-get install -y lua5.4 luarocks
+        sudo apt-get install -y luajit luarocks
     
     - name: Install busted
       run: |

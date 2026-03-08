@@ -1,7 +1,7 @@
 # LuaBots - Emu Lua Bot API
 
 [![Run Tests](https://github.com/johnfking/ELBA/actions/workflows/test.yml/badge.svg)](https://github.com/johnfking/ELBA/actions/workflows/test.yml)
-[![Lua](https://img.shields.io/badge/Lua-5.4-blue.svg)](https://www.lua.org/)
+[![Lua](https://img.shields.io/badge/LuaJIT-2.1-blue.svg)](https://luajit.org/)
 [![Tests](https://img.shields.io/badge/tests-558%20passing-brightgreen.svg)](https://github.com/johnfking/ELBA)
 [![Property Tests](https://img.shields.io/badge/property%20tests-103-blue.svg)](https://github.com/johnfking/ELBA)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/johnfking/ELBA)
@@ -40,11 +40,11 @@ The library features a **functional architecture** that separates pure logic fro
 
 ## Environment setup
 
-The repository expects a Lua 5.4 toolchain with LuaRocks available.
+The repository expects LuaJIT 2.1 with LuaRocks available.
 
 ### Linux/macOS (Debian/Ubuntu)
 
-On a fresh Debian/Ubuntu container, run the helper script to install Lua, LuaRocks, and the `busted` test runner:
+On a fresh Debian/Ubuntu container, run the helper script to install LuaJIT, LuaRocks, and the `busted` test runner:
 
 ```bash
 ./scripts/install_deps.sh
@@ -67,18 +67,19 @@ On Windows, you can use the PowerShell installation script (requires [Chocolatey
 ```
 
 Alternatively, install manually:
-1. Install Lua from [LuaForWindows](https://github.com/rjpcomputing/luaforwindows/releases)
+1. Install LuaJIT from [luajit.org](https://luajit.org/)
 2. Install LuaRocks from [luarocks.org](https://luarocks.org/)
-3. Run: `luarocks install busted`
+3. Run: `luarocks install busted` and `luarocks install luacov`
 
 ### Manual Installation
 
 If you prefer to install manually:
 
 ```bash
-# Install Lua 5.4 and LuaRocks using your package manager
-# Then install busted:
+# Install LuaJIT and LuaRocks using your package manager
+# Then install test dependencies:
 luarocks install busted
+luarocks install luacov
 ```
 
 ### Working behind a proxy

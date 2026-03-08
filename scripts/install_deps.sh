@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing Lua 5.4, LuaRocks, and the busted test runner..."
+echo "Installing LuaJIT, LuaRocks, and test dependencies..."
 
-# Install Lua 5.4, LuaRocks
+# Install LuaJIT and LuaRocks
 sudo apt-get update
-sudo apt-get install -y lua5.4 luarocks
+sudo apt-get install -y luajit luarocks
 
-# Install busted
+# Install busted and luacov
 echo "Installing busted and luacov..."
 sudo luarocks install busted
 sudo luarocks install luacov
