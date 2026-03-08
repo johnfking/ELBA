@@ -1,18 +1,6 @@
 -- Unit tests for HTTPClient module (Task 3.1)
 -- These tests verify the HTTP client interface and implementations
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.HTTPClient', 'LuaBots/HTTPClient')
-end
-
-setup_package_aliases()
-
 local HTTPClient = require('LuaBots.HTTPClient')
 
 describe('HTTPClient Module - Task 3.1 Verification', function()

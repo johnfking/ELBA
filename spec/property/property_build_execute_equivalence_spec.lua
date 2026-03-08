@@ -9,7 +9,7 @@ describe("Build-Execute Equivalence", function()
   local generators = require('spec.generators')
   local CommandBuilder = require('LuaBots.CommandBuilder')
   local CommandExecutor = require('LuaBots.CommandExecutor')
-  local mq = require('mq')
+  local mq = require('LuaBots.mq')
 
   describe("Property 4: Build-Execute Equivalence", function()
     it("should produce same mq.cmd call for single-parameter builders", function()

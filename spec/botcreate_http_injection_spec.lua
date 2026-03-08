@@ -4,28 +4,6 @@
 -- Validates Requirements 5.1, 5.2, 5.3, 7.3
 --
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.init', 'init')
-  alias('LuaBots.Actionable', 'Actionable')
-  alias('LuaBots.enums.Slot', 'enums.Slot')
-  alias('LuaBots.enums.Class', 'enums.Class')
-  alias('LuaBots.enums.Gender', 'enums.Gender')
-  alias('LuaBots.enums.Race', 'enums.Race')
-  alias('LuaBots.enums.SpellType', 'enums.SpellType')
-  alias('LuaBots.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
-  alias('LuaBots.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
-  alias('LuaBots.enums.Stance', 'enums.Stance')
-  alias('LuaBots.enums.MaterialSlot', 'enums.MaterialSlot')
-  alias('LuaBots.enums.PetType', 'enums.PetType')
-  alias('mq', 'mq_stub')
-end
-
 local function setup_package_manager_stub()
   if package.preload['mq.PackageMan'] or package.loaded['mq.PackageMan'] then
     return
@@ -66,11 +44,10 @@ local function setup_cjson_stub()
   end
 end
 
-setup_package_aliases()
 setup_package_manager_stub()
 setup_cjson_stub()
 
-local LuaBots = require('LuaBots.init')
+local LuaBots = require('init')
 local HTTPClient = require('LuaBots.HTTPClient')
 local Class = require('enums.Class')
 local Race = require('enums.Race')

@@ -1,5 +1,5 @@
 -- parser.lua
-local mq       = require("elba.mq")
+local mq       = require("LuaBots.mq")
 local M        = {}
 
 --- Handle incoming text lines

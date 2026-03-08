@@ -1,24 +1,3 @@
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.init', 'init')
-  alias('LuaBots.Actionable', 'Actionable')
-  alias('LuaBots.enums.Slot', 'enums.Slot')
-  alias('LuaBots.enums.Class', 'enums.Class')
-  alias('LuaBots.enums.Gender', 'enums.Gender')
-  alias('LuaBots.enums.Race', 'enums.Race')
-  alias('LuaBots.enums.SpellType', 'enums.SpellType')
-  alias('LuaBots.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
-  alias('LuaBots.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
-  alias('LuaBots.enums.Stance', 'enums.Stance')
-  alias('LuaBots.enums.MaterialSlot', 'enums.MaterialSlot')
-  alias('LuaBots.enums.PetType', 'enums.PetType')
-end
-
 local function setup_package_manager_stub()
   if package.preload['mq.PackageMan'] or package.loaded['mq.PackageMan'] then
     return
@@ -38,11 +17,10 @@ local function setup_package_manager_stub()
   end
 end
 
-setup_package_aliases()
 setup_package_manager_stub()
 
-local LuaBots = require('LuaBots.init')
-local Actionable = require('Actionable')
+local LuaBots = require('init')
+local Actionable = require('LuaBots.Actionable')
 local Class = require('enums.Class')
 local Gender = require('enums.Gender')
 local MaterialSlot = require('enums.MaterialSlot')

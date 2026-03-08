@@ -28,7 +28,7 @@ function M.create_package_config()
     aliases = {
       -- Core LuaBots modules
       ['LuaBots.init'] = 'init',
-      ['LuaBots.Actionable'] = 'Actionable',
+      ['LuaBots.Actionable'] = 'LuaBots/Actionable',
 
       -- Command building modules
       ['LuaBots.CommandBuilder'] = 'LuaBots/CommandBuilder',

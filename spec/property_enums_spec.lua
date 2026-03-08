@@ -1,24 +1,4 @@
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
--- Set up package aliases
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-  alias('LuaBots.init', 'init')
-  alias('LuaBots.Actionable', 'Actionable')
-  alias('LuaBots.enums.Slot', 'enums.Slot')
-  alias('LuaBots.enums.Class', 'enums.Class')
-  alias('LuaBots.enums.Gender', 'enums.Gender')
-  alias('LuaBots.enums.Race', 'enums.Race')
-  alias('LuaBots.enums.SpellType', 'enums.SpellType')
-  alias('LuaBots.enums.SpellDelayCategory', 'enums.SpellDelayCategory')
-  alias('LuaBots.enums.SpellHoldCategory', 'enums.SpellHoldCategory')
-  alias('LuaBots.enums.Stance', 'enums.Stance')
-  alias('LuaBots.enums.MaterialSlot', 'enums.MaterialSlot')
-  alias('LuaBots.enums.PetType', 'enums.PetType')
-end
-
+-- Set up package manager stub
 local function setup_package_manager_stub()
   if package.preload['mq.PackageMan'] or package.loaded['mq.PackageMan'] then
     return
@@ -35,13 +15,12 @@ local function setup_package_manager_stub()
   end
 end
 
-setup_package_aliases()
 setup_package_manager_stub()
 
 local property = require('spec.property')
 local generators = require('spec.generators')
-local LuaBots = require('LuaBots.init')
-local Actionable = require('Actionable')
+local LuaBots = require('init')
+local Actionable = require('LuaBots.Actionable')
 local test_helpers = require('spec.test_helpers')
 local capture = test_helpers.capture
 

@@ -1,19 +1,6 @@
 -- Unit tests for CommandExecutor module (Task 2.2)
 -- These tests verify that the CommandExecutor correctly calls mq.cmd() and mq.cmdf()
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.CommandExecutor', 'LuaBots/CommandExecutor')
-  alias('mq', 'mq_stub')
-end
-
-setup_package_aliases()
-
 local CommandExecutor = require('LuaBots.CommandExecutor')
 local test_helpers = require('spec.test_helpers')
 local capture = test_helpers.capture

@@ -7,4 +7,4 @@ if not use_stub then
     end
 end
 
-return require('mq_stub')
+return require('LuaBots.mq_stub')

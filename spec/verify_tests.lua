@@ -1,8 +1,6 @@
 #!/usr/bin/env lua
 -- Verification script to check test files load correctly
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
 print("=== LuaBots Test Verification ===\n")
 
 local function test_load(name, path)
@@ -22,7 +20,7 @@ local all_ok = true
 
 -- Test core modules
 print("Core Modules:")
-all_ok = test_load("Actionable", "Actionable") and all_ok
+all_ok = test_load("Actionable", "LuaBots.Actionable") and all_ok
 all_ok = test_load("MQ Stub", "mq_stub") and all_ok
 
 -- Test enums

@@ -1,8 +1,6 @@
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
 local property = require('spec.property')
 local generators = require('spec.generators')
-local Actionable = require('Actionable')
+local Actionable = require('LuaBots.Actionable')
 
 describe('Actionable properties', function()
   it('Property 1: types requiring selectors error without them', function()

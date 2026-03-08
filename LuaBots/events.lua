@@ -1,6 +1,6 @@
 -- events.lua
-local mq     = require("elba.mq")
-local parser = require("elba.parser")
+local mq     = require("LuaBots.mq")
+local parser = require("LuaBots.parser")
 local M      = {}
 
 --- Register MacroQuest hooks

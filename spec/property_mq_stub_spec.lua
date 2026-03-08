@@ -1,8 +1,6 @@
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
 local property = require('spec.property')
 local generators = require('spec.generators')
-local mq = require('mq')
+local mq = require('LuaBots.mq')
 local test_helpers = require('spec.test_helpers')
 local capture = test_helpers.capture
 

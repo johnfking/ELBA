@@ -1,17 +1,6 @@
 -- Unit tests for NameGenerator module (Task 3.3)
 -- These tests verify name generation with various HTTP client responses
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.NameGenerator', 'LuaBots/NameGenerator')
-  alias('LuaBots.HTTPClient', 'LuaBots/HTTPClient')
-end
-
 local function setup_cjson_stub()
   -- Mock cjson for testing
   package.preload['cjson'] = function()
@@ -61,7 +50,6 @@ local function setup_cjson_stub()
   end
 end
 
-setup_package_aliases()
 setup_cjson_stub()
 
 local NameGenerator = require('LuaBots.NameGenerator')

@@ -4,27 +4,6 @@
 -- Task 3.4: Write property tests for HTTP client injection
 --
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
--- Setup mq stub BEFORE requiring init.lua
-local captured_commands = {}
-
-package.loaded['mq'] = {
-  cmd = function(cmd)
-    table.insert(captured_commands, cmd)
-  end,
-  cmdf = function(fmt, ...)
-    local cmd = string.format(fmt, ...)
-    table.insert(captured_commands, cmd)
-  end,
-  get_captured = function()
-    return captured_commands
-  end,
-  clear_captured = function()
-    captured_commands = {}
-  end
-}
-
 -- Mock mq.PackageMan
 package.preload['mq.PackageMan'] = function()
   return {
@@ -69,41 +48,23 @@ package.preload['cjson'] = function()
   }
 end
 
--- Setup package aliases for LuaBots modules
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.NameGenerator', 'LuaBots/NameGenerator')
-  alias('LuaBots.HTTPClient', 'LuaBots/HTTPClient')
-  alias('LuaBots.CommandBuilder', 'LuaBots/CommandBuilder')
-  alias('LuaBots.CommandExecutor', 'LuaBots/CommandExecutor')
-  alias('LuaBots.Actionable', 'Actionable')
-  alias('LuaBots.enums.Class', 'enums/Class')
-  alias('LuaBots.enums.Race', 'enums/Race')
-  alias('LuaBots.enums.Gender', 'enums/Gender')
-  alias('LuaBots.enums.Slot', 'enums/Slot')
-  alias('LuaBots.enums.SpellType', 'enums/SpellType')
-  alias('LuaBots.enums.SpellDelayCategory', 'enums/SpellDelayCategory')
-  alias('LuaBots.enums.SpellHoldCategory', 'enums/SpellHoldCategory')
-  alias('LuaBots.enums.Stance', 'enums/Stance')
-  alias('LuaBots.enums.MaterialSlot', 'enums/MaterialSlot')
-  alias('LuaBots.enums.PetType', 'enums/PetType')
-end
-
-setup_package_aliases()
-
 describe("HTTP Client Injection", function()
   local property = require('spec.property')
   local generators = require('spec.generators')
   local HTTPClient = require('LuaBots.HTTPClient')
   local LuaBots = require('init')
+  local mq = require('LuaBots.mq')
   
   describe("Property 12: HTTP Client Injection", function()
     before_each(function()
       -- Clear captured commands before each test
-      package.loaded['mq'].clear_captured()
+      mq.enable_capture()
+      mq.clear_captured_commands()
+    end)
+    
+    after_each(function()
+      -- Disable capture after each test
+      mq.disable_capture()
     end)
     
     it("should use custom HTTP client when provided", function()
@@ -131,7 +92,7 @@ describe("HTTP Client Injection", function()
           }
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate with AUTO name and custom HTTP client
           local result = LuaBots:botcreate("AUTO", class, race, gender, mock_client)
@@ -176,7 +137,7 @@ describe("HTTP Client Injection", function()
           }
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate with AUTO name
           local result = LuaBots:botcreate("AUTO", class, race, gender, mock_client)
@@ -190,7 +151,7 @@ describe("HTTP Client Injection", function()
               generated_name, result.Name))
           
           -- Verify the command was executed with the correct name
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           
           local expected_cmd = string.format("/say ^botcreate %s %d %d %d",
@@ -221,7 +182,7 @@ describe("HTTP Client Injection", function()
           }
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate with AUTO name and failing HTTP client
           local result = LuaBots:botcreate("AUTO", class, race, gender, mock_client)
@@ -231,7 +192,7 @@ describe("HTTP Client Injection", function()
             "botcreate should return nil when HTTP client fails")
           
           -- Verify no command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(0, #commands, 
             "No command should be executed when name generation fails")
         end,
@@ -266,7 +227,7 @@ describe("HTTP Client Injection", function()
           }
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate with explicit name
           local result = LuaBots:botcreate(bot_name, class, race, gender, mock_client)
@@ -317,7 +278,7 @@ describe("HTTP Client Injection", function()
           }
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate with AUTO name
           local result = LuaBots:botcreate("AUTO", class, race, gender, mock_client)

@@ -3,10 +3,8 @@
 -- Builds on the property framework to create bot-specific test data
 --
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
 local property = require('spec.property')
-local Actionable = require('Actionable')
+local Actionable = require('LuaBots.Actionable')
 
 local generators = {}
 

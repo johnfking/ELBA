@@ -26,23 +26,23 @@
 -- For more details on side effects and functional patterns, see docs/side-effects.md
 --
 
-local mq = require('mq')
+local mq = require('LuaBots.mq')
 
 ---@class LuaBots
 local LuaBots = {}
 
 -- Load Modules
 LuaBots.Actionable  = require('LuaBots.Actionable')
-LuaBots.Class       = require('LuaBots.enums.Class')
-LuaBots.Slot        = require('LuaBots.enums.Slot')
-LuaBots.Gender      = require('LuaBots.enums.Gender')
-LuaBots.Race        = require('LuaBots.enums.Race')
-LuaBots.SpellType   = require('LuaBots.enums.SpellType')
-LuaBots.SpellDelayCategory = require('LuaBots.enums.SpellDelayCategory')
-LuaBots.SpellHoldCategory = require('LuaBots.enums.SpellHoldCategory')
-LuaBots.Stance      = require('LuaBots.enums.Stance')
-LuaBots.MaterialSlot = require('LuaBots.enums.MaterialSlot')
-LuaBots.PetType     = require('LuaBots.enums.PetType')
+LuaBots.Class       = require('enums.Class')
+LuaBots.Slot        = require('enums.Slot')
+LuaBots.Gender      = require('enums.Gender')
+LuaBots.Race        = require('enums.Race')
+LuaBots.SpellType   = require('enums.SpellType')
+LuaBots.SpellDelayCategory = require('enums.SpellDelayCategory')
+LuaBots.SpellHoldCategory = require('enums.SpellHoldCategory')
+LuaBots.Stance      = require('enums.Stance')
+LuaBots.MaterialSlot = require('enums.MaterialSlot')
+LuaBots.PetType     = require('enums.PetType')
 
 -- Load refactored modules for functional programming approach
 local CommandBuilder = require('LuaBots.CommandBuilder')

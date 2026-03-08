@@ -4,28 +4,6 @@
 -- Task 4.6: Write property tests for backward compatibility
 --
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
--- Setup mq stub BEFORE requiring init.lua
-local captured_commands = {}
-local captured_output = {}
-
-package.loaded['mq'] = {
-  cmd = function(cmd)
-    table.insert(captured_commands, cmd)
-  end,
-  cmdf = function(fmt, ...)
-    local cmd = string.format(fmt, ...)
-    table.insert(captured_commands, cmd)
-  end,
-  get_captured = function()
-    return captured_commands
-  end,
-  clear_captured = function()
-    captured_commands = {}
-  end
-}
-
 -- Mock mq.PackageMan
 package.preload['mq.PackageMan'] = function()
   return {
@@ -70,41 +48,22 @@ package.preload['cjson'] = function()
   }
 end
 
--- Setup package aliases for LuaBots modules
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.NameGenerator', 'LuaBots/NameGenerator')
-  alias('LuaBots.HTTPClient', 'LuaBots/HTTPClient')
-  alias('LuaBots.CommandBuilder', 'LuaBots/CommandBuilder')
-  alias('LuaBots.CommandExecutor', 'LuaBots/CommandExecutor')
-  alias('LuaBots.Actionable', 'Actionable')
-  alias('LuaBots.enums.Class', 'enums/Class')
-  alias('LuaBots.enums.Race', 'enums/Race')
-  alias('LuaBots.enums.Gender', 'enums/Gender')
-  alias('LuaBots.enums.Slot', 'enums/Slot')
-  alias('LuaBots.enums.SpellType', 'enums/SpellType')
-  alias('LuaBots.enums.SpellDelayCategory', 'enums/SpellDelayCategory')
-  alias('LuaBots.enums.SpellHoldCategory', 'enums/SpellHoldCategory')
-  alias('LuaBots.enums.Stance', 'enums/Stance')
-  alias('LuaBots.enums.MaterialSlot', 'enums/MaterialSlot')
-  alias('LuaBots.enums.PetType', 'enums/PetType')
-end
-
-setup_package_aliases()
-
 describe("Backward Compatibility", function()
   local property = require('spec.property')
   local generators = require('spec.generators')
   local LuaBots = require('init')
+  local mq = require('LuaBots.mq')
   
   describe("Property 13: Optional Parameter Backward Compatibility", function()
     before_each(function()
       -- Clear captured commands before each test
-      package.loaded['mq'].clear_captured()
-      captured_output = {}
+      mq.enable_capture()
+      mq.clear_captured_commands()
+    end)
+    
+    after_each(function()
+      -- Disable capture after each test
+      mq.disable_capture()
     end)
     
     it("should work without optional http_client parameter for explicit names", function()
@@ -124,7 +83,7 @@ describe("Backward Compatibility", function()
           end
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call botcreate WITHOUT optional http_client parameter
           -- This tests backward compatibility - existing code doesn't pass http_client
@@ -138,7 +97,7 @@ describe("Backward Compatibility", function()
           assert.equals(gender, result.Gender, "Result should contain the provided gender")
           
           -- Verify command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           
           -- Verify command format matches expected
@@ -165,13 +124,13 @@ describe("Backward Compatibility", function()
         },
         function(value, act)
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call stance with standard parameters (no optional params)
           LuaBots:stance(value, act)
           
           -- Verify command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           assert.is_string(commands[1], "Command should be a string")
           assert.is_not_nil(commands[1]:match("^/say %^stance"),
@@ -191,13 +150,13 @@ describe("Backward Compatibility", function()
         },
         function(value, act)
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call attack with standard parameters
           LuaBots:attack(value, act)
           
           -- Verify command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           assert.is_string(commands[1], "Command should be a string")
           assert.is_not_nil(commands[1]:match("^/say %^attack"),
@@ -217,13 +176,13 @@ describe("Backward Compatibility", function()
         },
         function(value, act)
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call guard with standard parameters
           LuaBots:guard(value, act)
           
           -- Verify command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           assert.is_string(commands[1], "Command should be a string")
           assert.is_not_nil(commands[1]:match("^/say %^guard"),
@@ -243,13 +202,13 @@ describe("Backward Compatibility", function()
         },
         function(value, act)
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call follow with standard parameters
           LuaBots:follow(value, act)
           
           -- Verify command was executed
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
           assert.is_string(commands[1], "Command should be a string")
           assert.is_not_nil(commands[1]:match("^/say %^follow"),
@@ -279,7 +238,7 @@ describe("Backward Compatibility", function()
           end
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call with exactly 4 parameters (original signature)
           -- No optional parameters provided
@@ -292,7 +251,7 @@ describe("Backward Compatibility", function()
           assert.is_not_nil(result, "Function should return a result")
           
           -- Verify behavior is correct
-          local commands = package.loaded['mq'].get_captured()
+          local commands = mq.get_captured_commands()
           assert.equals(1, #commands, "Should execute exactly one command")
         end,
         { iterations = 100 }
@@ -316,19 +275,19 @@ describe("Backward Compatibility", function()
           end
           
           -- Clear captured commands
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           
           -- Call with explicit nil for optional parameter
           local result_with_nil = LuaBots:botcreate(name, class, race, gender, nil)
           local commands_with_nil = {}
-          for i, cmd in ipairs(package.loaded['mq'].get_captured()) do
+          for i, cmd in ipairs(mq.get_captured_commands()) do
             commands_with_nil[i] = cmd
           end
           
           -- Clear and call without optional parameter
-          package.loaded['mq'].clear_captured()
+          mq.clear_captured_commands()
           local result_without = LuaBots:botcreate(name, class, race, gender)
-          local commands_without = package.loaded['mq'].get_captured()
+          local commands_without = mq.get_captured_commands()
           
           -- Verify both produce identical results
           assert.equals(result_without.Name, result_with_nil.Name,

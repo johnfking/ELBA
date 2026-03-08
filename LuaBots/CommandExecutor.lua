@@ -26,7 +26,7 @@ local CommandExecutor = {}
 ---
 ---@param cmd string command to execute
 function CommandExecutor.execute(cmd)
-    local mq = require('mq')
+    local mq = require('LuaBots.mq')
     mq.cmd(cmd)
 end
 
@@ -38,7 +38,7 @@ end
 ---@param fmt string format string
 ---@param ... any format arguments
 function CommandExecutor.executef(fmt, ...)
-    local mq = require('mq')
+    local mq = require('LuaBots.mq')
     mq.cmdf(fmt, ...)
 end
 

@@ -11,7 +11,7 @@ This mirrors what the server side is prepared to parse: each handler receives a 
 
 ## Actionable selectors
 
-`Actionable.lua` contains factory helpers for the selectors that the server side recognises.  The names (such as `byname`, `ownergroup`, `healrotation`, and `mmr`) match the tokens that the C++ handlers pass into `ActionableBots::PopulateSBL`, so picking a selector in Lua results in the same subset of bots being queued on the server.
+`LuaBots/Actionable.lua` contains factory helpers for the selectors that the server side recognises.  The names (such as `byname`, `ownergroup`, `healrotation`, and `mmr`) match the tokens that the C++ handlers pass into `ActionableBots::PopulateSBL`, so picking a selector in Lua results in the same subset of bots being queued on the server.
 
 Some selectors (for example `byname`, `byclass`, `byrace`, or any of the heal rotation helpers) require an additional identifier, and the constructor will raise an error if you omit it.  Others (such as `ownergroup` or `spawned`) act as simple flags.
 

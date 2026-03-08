@@ -9,7 +9,7 @@ for _, arg in ipairs(args) do
     end
 end
 
-local mq = require('mq')
+local mq = require('LuaBots.mq')
 
 if enable_repository_modules then
     -- Provide module aliases when running directly from the repository.

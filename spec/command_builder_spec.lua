@@ -1,21 +1,8 @@
 -- Verification tests for CommandBuilder module (Task 1.2)
 -- These tests verify that the four core command builders are correctly implemented
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
-local function setup_package_aliases()
-  local function alias(name, target)
-    package.preload[name] = function() return require(target) end
-  end
-
-  alias('LuaBots.CommandBuilder', 'LuaBots/CommandBuilder')
-  alias('LuaBots.Actionable', 'Actionable')
-end
-
-setup_package_aliases()
-
 local CommandBuilder = require('LuaBots.CommandBuilder')
-local Actionable = require('Actionable')
+local Actionable = require('LuaBots.Actionable')
 
 describe('CommandBuilder Module - Task 1.2 Verification', function()
   

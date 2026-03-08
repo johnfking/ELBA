@@ -798,7 +798,7 @@ spec/
     luabots_integration_spec.lua
   
   helpers/                       # Test helpers
-    mq_stub.lua
+    LuaBots/mq_stub.lua
     capture.lua
     package_config.lua
 ```

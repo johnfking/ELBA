@@ -16,7 +16,8 @@
   },
   "workspace": {
     "library": [
-      "${3rd}/busted/library"
+      "${3rd}/busted/library",
+      "LuaBots"
     ]
   }
 }

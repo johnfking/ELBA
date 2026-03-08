@@ -6,7 +6,7 @@ describe("mq_stub command capture", function()
     before_each(function()
         -- Reload mq_stub to get fresh state
         package.loaded['mq_stub'] = nil
-        mq = require('mq_stub')
+        mq = require('LuaBots.mq_stub')
     end)
 
     describe("enable_capture", function()

@@ -14,16 +14,16 @@ The library features a **functional architecture** that separates pure logic fro
 
 ### Core Modules
 - `init.lua` – main entry point with backward-compatible API
-- `Actionable.lua` – constructors for different bot selectors (single target, groups, heal rotations, etc.)
 - `LuaBots/` – functional core modules:
+  - `Actionable.lua` – constructors for different bot selectors (single target, groups, heal rotations, etc.)
   - `CommandBuilder.lua` – pure functions for building command strings
   - `CommandExecutor.lua` – side-effect wrapper for command execution
   - `HTTPClient.lua` – injectable HTTP client for bot creation
   - `NameGenerator.lua` – deterministic bot name generation with RNG state management
+  - `mq.lua` – loads the real `mq` library if available or falls back to the bundled stub
+  - `mq_stub.lua` – test stub implementing a minimal subset of the MQ API with capture mode
+  - `events.lua` and `parser.lua` – placeholders for MacroQuest event handling
 - `enums/` – enumerations used by the API (`Class`, `Gender`, `Race`, `Slot`, `SpellType`, `Stance`, `PetType`)
-- `mq.lua` – loads the real `mq` library if available or falls back to the bundled stub
-- `mq_stub.lua` – test stub implementing a minimal subset of the MQ API with capture mode
-- `events.lua` and `parser.lua` – placeholders for MacroQuest event handling
 
 ### Testing
 - `spec/` – comprehensive test suite with 558 tests:
@@ -154,7 +154,7 @@ The main `init.lua` module provides a backward-compatible API that delegates to 
 - **State isolation** - No global state or hidden side effects
 - **Backward compatibility** - Existing code continues to work unchanged
 
-For unit testing, `mq.lua` loads `mq_stub.lua` unless the environment variable `LUABOTS_STUB_MQ` is unset. The stub supports both normal and capture modes, allowing tests to verify formatted commands without requiring MQ to be present.
+For unit testing, `LuaBots/mq.lua` loads `LuaBots/mq_stub.lua` unless the environment variable `LUABOTS_STUB_MQ` is unset. The stub supports both normal and capture modes, allowing tests to verify formatted commands without requiring MQ to be present.
 
 See [`docs/side-effects.md`](docs/side-effects.md) for a detailed guide to the functional architecture.
 

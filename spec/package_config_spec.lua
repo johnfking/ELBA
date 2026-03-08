@@ -25,7 +25,7 @@ describe('package_config module', function()
       local config = package_config.create_package_config()
       
       assert.equals('init', config.aliases['LuaBots.init'])
-      assert.equals('Actionable', config.aliases['LuaBots.Actionable'])
+      assert.equals('LuaBots/Actionable', config.aliases['LuaBots.Actionable'])
     end)
     
     it('contains command building module aliases', function()
@@ -196,7 +196,7 @@ describe('package_config module', function()
 
     it('creates loader functions that call require with correct path', function()
       local config = {
-        aliases = { ['test.alias'] = 'Actionable' },
+        aliases = { ['test.alias'] = 'LuaBots/Actionable' },
         preload = {},
         loaded = {}
       }

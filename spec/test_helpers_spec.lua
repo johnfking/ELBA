@@ -1,8 +1,6 @@
 --- Unit tests for test_helpers module (Task 7.2)
 --- These tests verify that the capture() function uses OutputSink correctly
 
-package.path = './?.lua;./?/init.lua;./?/?.lua;' .. package.path
-
 local test_helpers = require('spec.test_helpers')
 local output_sink = require('spec.output_sink')
 
@@ -134,7 +132,7 @@ describe('test_helpers.capture - Task 7.2 Verification', function()
   
   describe('Integration with existing tests', function()
     it('works with mq_stub commands', function()
-      local mq = require('mq')
+      local mq = require('LuaBots.mq')
       
       local output = test_helpers.capture(function()
         mq.cmd('/say ^test')
