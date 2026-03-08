@@ -129,3 +129,40 @@ end)
       end
     end
   end)
+
+  -- Coverage tests for less common actionable types
+  it('covers botgroup actionable', function()
+    local act = Actionable.botgroup('mygroup')
+    assert.equals('botgroup', act.type)
+    assert.equals('mygroup', act.selector)
+  end)
+
+  it('covers targetgroup actionable', function()
+    local act = Actionable.targetgroup()
+    assert.equals('targetgroup', act.type)
+    assert.is_nil(act.selector)
+  end)
+
+  it('covers namesgroup actionable', function()
+    local act = Actionable.namesgroup('player')
+    assert.equals('namesgroup', act.type)
+    assert.equals('player', act.selector)
+  end)
+
+  it('covers healrotation actionable', function()
+    local act = Actionable.healrotation('rotation1')
+    assert.equals('healrotation', act.type)
+    assert.equals('rotation1', act.selector)
+  end)
+
+  it('covers healrotationmembers actionable', function()
+    local act = Actionable.healrotationmembers('rotation1')
+    assert.equals('healrotationmembers', act.type)
+    assert.equals('rotation1', act.selector)
+  end)
+
+  it('covers healrotationtargets actionable', function()
+    local act = Actionable.healrotationtargets('rotation1')
+    assert.equals('healrotationtargets', act.type)
+    assert.equals('rotation1', act.selector)
+  end)
