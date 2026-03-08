@@ -1,5 +1,10 @@
 # LuaBots - Emu Lua Bot API
 
+[![Run Tests](https://github.com/johnfking/ELBA/actions/workflows/test.yml/badge.svg)](https://github.com/johnfking/ELBA/actions/workflows/test.yml)
+[![Lua](https://img.shields.io/badge/Lua-5.4-blue.svg)](https://www.lua.org/)
+[![Tests](https://img.shields.io/badge/tests-558%20passing-brightgreen.svg)](https://github.com/johnfking/ELBA)
+[![Property Tests](https://img.shields.io/badge/property%20tests-103-blue.svg)](https://github.com/johnfking/ELBA)
+
 LuaBots provides a Lua wrapper around the standard text chat-based Emu server-bot interface. It exposes a set of helper functions and enumerations for driving in‑game bots from Lua scripts. 
 
 The library features a **functional architecture** that separates pure logic from side effects, enabling comprehensive property-based testing and maintaining full backward compatibility. The project includes lightweight stubs so the API can be unit tested without running the MacroQuest environment.
