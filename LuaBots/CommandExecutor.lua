@@ -13,8 +13,6 @@
 ---   local CommandExecutor = require('LuaBots.CommandExecutor')
 ---   local cmd = "/say ^stance Passive"
 ---   CommandExecutor.execute(cmd)
----
---- @module LuaBots.CommandExecutor
 
 ---@class CommandExecutor
 local CommandExecutor = {}
